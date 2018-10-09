@@ -1,4 +1,4 @@
-# biobb_md
+# biobb_template
 
 ### Introduction
 Biobb_md is the Biobb module collection to perform molecular dynamics simulations.
