@@ -1,0 +1,7 @@
+conf_file:
+    class: File
+    location: ../../../test/conf.yml
+input_file_path:
+    class: File
+    location: ../../../test/data/template/file.in
+output_file_path: file.out

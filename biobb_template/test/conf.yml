@@ -1,0 +1,10 @@
+linux:
+  workflow_path: /tmp/biobb/unitests
+
+macos:
+  workflow_path: /tmp/biobb/unitests
+
+editconf:
+  paths:
+    input_file_path: file:test_data_dir/template/file.in
+    output_file_path: file.out
