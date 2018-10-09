@@ -23,4 +23,4 @@ Licensed under the
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), see the file
 [LICENSE](LICENSE) for details.
 
-![](docs/source/_static/bioexcel_logo.png "Bioexcel")
+![](biobb_template/docs/source/_static/bioexcel_logo.png "Bioexcel")
