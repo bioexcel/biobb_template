@@ -71,10 +71,9 @@ def main():
     ####
 
     args = parser.parse_args()
+    properties = settings.ConfReader(config=args.config, system=args.system).get_prop_dic()
     if args.step:
-        properties = settings.ConfReader(config=args.config, system=args.system).get_prop_dic()[args.step]
-    else:
-        properties = settings.ConfReader(config=args.config, system=args.system).get_prop_dic()
+        properties = properties[args.step]
 
     #Specific call of each building block
     Template(input_file_path=args.input_file_path, output_gro_path=args.output_file_path, properties=properties).launch()
