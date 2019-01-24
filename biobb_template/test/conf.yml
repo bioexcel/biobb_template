@@ -1,8 +1,8 @@
 linux:
-  workflow_path: /tmp/biobb/unitests
+  working_dir_path: /tmp/biobb/unitests
 
 macos:
-  workflow_path: /tmp/biobb/unitests
+  working_dir_path: /tmp/biobb/unitests
 
 editconf:
   paths:
