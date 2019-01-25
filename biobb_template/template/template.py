@@ -6,7 +6,7 @@ from biobb_common.configuration import  settings
 from biobb_common.tools import file_utils as fu
 from biobb_common.command_wrapper import cmd_wrapper
 
-class Template(object):
+class Template():
     """Wrapper class for the template (http://templatedocumentation.org) module.
 
     Args:
@@ -80,7 +80,7 @@ def main():
         properties = properties[args.step]
 
     #Specific call of each building block
-    Template(input_file_path=args.input_file_path, output_gro_path=args.output_file_path, properties=properties).launch()
+    Template(input_file_path=args.input_file_path, output_file_path=args.output_file_path, properties=properties).launch()
 
 if __name__ == '__main__':
     main()

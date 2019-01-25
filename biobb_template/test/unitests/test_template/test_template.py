@@ -1,7 +1,7 @@
 from biobb_common.tools import test_fixtures as fx
 from template.template import Template
 
-class TestTemplate(object):
+class TestTemplate():
     def setUp(self):
         fx.test_setup(self,'template')
 
