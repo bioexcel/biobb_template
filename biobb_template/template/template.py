@@ -29,8 +29,8 @@ class Template():
         # Properties specific for BB
         self.float_property = properties.get('float_property',1.0)
         self.string_property = properties.get('string_property', 'foo')
-        self.boolean_property = properties.get('boolean_property',True)
-        self.executable_binary_property = properties.get('booleaexecutable_binary_property','echo')
+        self.boolean_property = properties.get('boolean_property', True)
+        self.executable_binary_property = properties.get('executable_binary_property', 'echo')
 
         # Properties common in all BB
         self.can_write_console_log = properties.get('can_write_console_log', True)
@@ -65,7 +65,7 @@ class Template():
 
 def main():
     parser = argparse.ArgumentParser(description="Wrapper of the template module.")
-    parser.add_argument('--config', required=True)
+    parser.add_argument('--config', required=False)
     parser.add_argument('--system', required=False)
     parser.add_argument('--step', required=False)
 
@@ -74,8 +74,8 @@ def main():
     parser.add_argument('--output_file_path', required=True)
 
     args = parser.parse_args()
-    args.config = args.config or "{}"
-    properties = settings.ConfReader(config=args.config, system=args.system).get_prop_dic()
+    config = args.config if args.config else None
+    properties = settings.ConfReader(config=config, system=args.system).get_prop_dic()
     if args.step:
         properties = properties[args.step]
 

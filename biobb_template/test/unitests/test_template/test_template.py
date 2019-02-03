@@ -10,6 +10,6 @@ class TestTemplate():
 
     def test_editconf(self):
         returncode= Editconf(properties=self.properties, **self.paths).launch()
-        assert fx.not_empty(self.paths['input_file_path'])
         assert fx.not_empty(self.paths['output_file_path'])
+        assert fx.equal(self.paths['output_file_path'], self.paths['ref_output_file_path'])
         assert fx.exe_success(returncode)
