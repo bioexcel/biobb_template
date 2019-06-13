@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-.. image:: _static/bioexcel_logo.png
+.. image:: https://bioexcel.eu/wp-content/uploads/2015/12/Bioexcell_logo_1080px_transp.png
 
 BIOBB_TEMPLATE
 --------------
@@ -26,4 +26,7 @@ Indices and tables
 * :ref:`search`
 
 `Github repository <https://github.com/bioexcel/biobb_template>`_.
-==================================================================
+===================================================================
+
+.. raw:: html
+    :file: schema.html
