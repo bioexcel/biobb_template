@@ -1,13 +1,13 @@
-template package
+templatem package
 =====================
 
 Submodules
 ----------
 
-template.template module
+templatem.templatem module
 ------------------------
 
-.. automodule:: template.template
+.. automodule:: templatem.templatem
     :members:
     :undoc-members:
     :show-inheritance:
