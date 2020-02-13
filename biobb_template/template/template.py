@@ -3,7 +3,8 @@
 """Module containing the Template class and the command line interface."""
 import argparse
 import shutil
-from pathlib import PurePath
+import os
+from pathlib import Path, PurePath
 from biobb_common.configuration import  settings
 from biobb_common.tools import file_utils as fu
 from biobb_common.tools.file_utils import launchlogger
@@ -15,10 +16,10 @@ class Template():
     Args:
         input_file_path1 (str): Description for the first input file path. File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: top.
         input_file_path2 (str) (Optional): Description for the second input file path (optional). File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: dcd.
-        output_file_path (str): Description for the output file path. File type: output. `Sample file <https://urlto.sample>`_. Accepted formats: tar, tgz, zip, gz, gzip.
+        output_file_path (str): Description for the output file path. File type: output. `Sample file <https://urlto.sample>`_. Accepted formats: zip.
         properties (dic):
             * **boolean_property** (*bool*) - (True) Example of boolean property.
-            * **executable_binary_property** (*str*) - ("tar") Example of executable binary property.
+            * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
             * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
             * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
             * **container_path** (*string*) - (None) Container path definition.
@@ -43,7 +44,7 @@ class Template():
         self.float_property = properties.get('float_property',1.0)
         self.string_property = properties.get('string_property', 'foo')
         self.boolean_property = properties.get('boolean_property', True)
-        self.executable_binary_property = properties.get('executable_binary_property', 'tar')
+        self.executable_binary_property = properties.get('executable_binary_property', 'zip')
 
         # container Specific
         self.container_path = properties.get('container_path')
@@ -90,16 +91,15 @@ class Template():
         # Copy input_file_path1 to temporary folder
         shutil.copy(container_io_dict['in']['input_file_path1'], self.tmp_folder)
 
-        # Construct command line
-        instructions = ['c', 'z', 'f']
+        instructions = []
         if self.boolean_property:
-            instructions.insert(0, 'v')
+            instructions.append('-v')
             fu.log('Appending optional boolean property', out_log, self.global_log)
 
         cmd = [self.executable_binary_property,
                ''.join(instructions), 
                container_io_dict['out']['output_file_path'],
-               str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path1']).name))]
+               str(PurePath(container_io_dict['in']['input_file_path1']).name)]
         fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
 
         # Add optional input file if provided
@@ -107,8 +107,14 @@ class Template():
             # Copy input_file_path2 to temporary folder
             shutil.copy(container_io_dict['in']['input_file_path2'], self.tmp_folder)
             # Append optional input_file_path2 to cmd
-            cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path2']).name)))
+            cmd.append(str(PurePath(container_io_dict['in']['input_file_path2']).name))
             fu.log('Appending optional argument to command line', out_log, self.global_log)
+
+        # Get cwd
+        cwd = Path.cwd()
+
+        # executing in temporary folder
+        os.chdir(self.tmp_folder)
 
         # Launch execution
         cmd = fu.create_cmd_line(cmd, container_path=self.container_path, host_volume=container_io_dict.get('unique_dir'), container_volume=self.container_volume_path, container_working_dir=self.container_working_dir, container_user_uid=self.container_user_id, container_image=self.container_image, container_shell_path=self.container_shell_path, out_log=out_log, global_log=self.global_log)
@@ -116,6 +122,9 @@ class Template():
 
         # Copy output(s) to output(s) path(s) in case of container execution
         fu.copy_to_host(self.container_path, container_io_dict, self.io_dict)
+
+        # executing in temporary folder
+        os.chdir(cwd)
 
         # Remove temporary file(s)
         if self.remove_tmp: 

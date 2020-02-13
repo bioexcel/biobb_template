@@ -7,6 +7,7 @@ class TestTemplate():
 
     def tearDown(self):
         fx.test_teardown(self)
+        pass
 
     def test_template(self):
         returncode= Template(properties=self.properties, **self.paths).launch()
