@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 
-.. image:: https://bioexcel.eu/wp-content/uploads/2015/12/Bioexcell_logo_1080px_transp.png
+.. image:: https://bioexcel.eu/wp-content/uploads/2019/04/Bioexcell_logo_1080px_transp.png
 
 BIOBB_TEMPLATE
 --------------
@@ -15,7 +15,7 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   Introducction & installation <readme>
+   Introduction & installation <readme>
    API Documentation <modules>
 
 Indices and tables
