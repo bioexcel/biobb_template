@@ -1,11 +1,11 @@
-linux:
-  working_dir_path: /tmp/biobb/unitests
+working_dir_path: /tmp/biobb/unitests
 
-macos:
-  working_dir_path: /tmp/biobb/unitests
-
-editconf:
+template:
   paths:
-    input_file_path: file:test_data_dir/template/file.in
-    output_file_path: file.out
-    ref_output_file_path: file:test_reference_dir/template/file.out
+    input_file_path1: file:test_data_dir/template/topology.top
+    input_file_path2: file:test_data_dir/template/trajectory.dcd
+    output_file_path: output.tgz
+    ref_output_file_path: file:test_reference_dir/template/output.tgz
+  properties:
+    boolean_property: false
+    remove_tmp: true

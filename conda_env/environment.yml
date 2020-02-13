@@ -1,0 +1,10 @@
+name: biobb_template
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python==3.6.5
+  - biobb_common==2.0.1
+  - nb_conda_kernels
+  - nose
+  - conda
