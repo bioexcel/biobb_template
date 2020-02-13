@@ -32,11 +32,7 @@
             "filetype": "output",
             "sample": "https://urlto.sample",
             "enum": [
-                ".*\\.tar$",
-                ".*\\.tgz$",
-                ".*\\.zip$",
-                ".*\\.gz$",
-                ".*\\.gzip$"
+                ".*\\.zip$"
             ]
         },
         "properties": {
@@ -49,7 +45,7 @@
                 },
                 "executable_binary_property": {
                     "type": "string",
-                    "default": "tar",
+                    "default": "zip",
                     "description": "Example of executable binary property."
                 },
                 "remove_tmp": {
