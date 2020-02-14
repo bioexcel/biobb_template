@@ -91,15 +91,17 @@ class Template():
         # Copy input_file_path1 to temporary folder
         shutil.copy(container_io_dict['in']['input_file_path1'], self.tmp_folder)
 
-        instructions = []
+        # Instructions for command line
+        instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
             fu.log('Appending optional boolean property', out_log, self.global_log)
 
+        # Creting command line
         cmd = [self.executable_binary_property,
-               ''.join(instructions), 
+               ' '.join(instructions), 
                container_io_dict['out']['output_file_path'],
-               str(PurePath(container_io_dict['in']['input_file_path1']).name)]
+               str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path1']).name))]
         fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
 
         # Add optional input file if provided
@@ -107,14 +109,8 @@ class Template():
             # Copy input_file_path2 to temporary folder
             shutil.copy(container_io_dict['in']['input_file_path2'], self.tmp_folder)
             # Append optional input_file_path2 to cmd
-            cmd.append(str(PurePath(container_io_dict['in']['input_file_path2']).name))
+            cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path2']).name)))
             fu.log('Appending optional argument to command line', out_log, self.global_log)
-
-        # Get cwd
-        cwd = Path.cwd()
-
-        # executing in temporary folder
-        os.chdir(self.tmp_folder)
 
         # Launch execution
         cmd = fu.create_cmd_line(cmd, container_path=self.container_path, host_volume=container_io_dict.get('unique_dir'), container_volume=self.container_volume_path, container_working_dir=self.container_working_dir, container_user_uid=self.container_user_id, container_image=self.container_image, container_shell_path=self.container_shell_path, out_log=out_log, global_log=self.global_log)
@@ -122,9 +118,6 @@ class Template():
 
         # Copy output(s) to output(s) path(s) in case of container execution
         fu.copy_to_host(self.container_path, container_io_dict, self.io_dict)
-
-        # executing in temporary folder
-        os.chdir(cwd)
 
         # Remove temporary file(s)
         if self.remove_tmp: 

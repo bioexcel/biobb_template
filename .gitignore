@@ -111,3 +111,12 @@ traj_comp.xtc
 
 #vscode
 .vscode
+
+# logs
+log.*
+
+# outputs notebook
+biobb_template/notebooks/template/*.*
+!biobb_template/notebooks/template/*.ipynb
+
+biobb_template/docs/jupyter/data

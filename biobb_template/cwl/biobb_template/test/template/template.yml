@@ -1,0 +1,8 @@
+input_file_path1:
+    class: File
+    location: ../data/template/topology.top
+input_file_path2:
+    class: File
+    location: ../data/template/trajectory.dcd
+output_file_path: output.pdb
+config: "{\"boolean_property\": false, \"remove_tmp\": true }"

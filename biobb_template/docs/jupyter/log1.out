@@ -1,0 +1,12 @@
+2020-02-14 14:13:28,364 [MainThread  ] [INFO ]  Creating c9a1035e-46eb-4173-931f-4c1f7356c275 temporary folder
+2020-02-14 14:13:28,368 [MainThread  ] [INFO ]  Creating command line with instructions and required arguments
+2020-02-14 14:13:28,375 [MainThread  ] [INFO ]  Appending optional argument to command line
+2020-02-14 14:13:28,375 [MainThread  ] [INFO ]  Not using any container
+2020-02-14 14:13:28,991 [MainThread  ] [INFO ]  zip -j data/output/output.zip c9a1035e-46eb-4173-931f-4c1f7356c275/topology.top c9a1035e-46eb-4173-931f-4c1f7356c275/trajectory.dcd
+
+2020-02-14 14:13:28,991 [MainThread  ] [INFO ]  Exit code 0
+
+2020-02-14 14:13:28,991 [MainThread  ] [INFO ]    adding: topology.top (deflated 87%)
+  adding: trajectory.dcd (deflated 14%)
+
+2020-02-14 14:13:28,993 [MainThread  ] [INFO ]  Removed: c9a1035e-46eb-4173-931f-4c1f7356c275
