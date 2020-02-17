@@ -5,4 +5,3 @@ biobb_template
    :maxdepth: 4
 
    template
-   template_container
