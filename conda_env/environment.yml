@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - python==3.6.5
+  - python
   - biobb_common==2.0.1
   - nb_conda_kernels
   - nose
