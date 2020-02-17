@@ -1,4 +1,5 @@
-# BioBB Analysis Command Line Help
+
+# BioBB Template Command Line Help
 
 Generic usage:
 
@@ -13,7 +14,7 @@ Please refer to the [system & step documentation](https://biobb-common.readthedo
 
 ## Template
 
-Description for the template (http://templatedocumentation.org) module.
+Description for the template module.
 
 ### Get help
 
@@ -42,7 +43,7 @@ required arguments:
   --input_file_path1 INPUT_FILE_PATH1
                         Description for the first input file path. Accepted formats: top.
   --output_file_path OUTPUT_FILE_PATH
-                        Description for the output file path. Accepted formats: zip, gz, gzip.
+                        Description for the output file path. Accepted formats: zip.
 ```
 
 ### I / O Arguments
@@ -87,14 +88,25 @@ properties:
 
 
 ```python
-
+properties:
+  boolean_property: false
+  remove_tmp: true
+  container_path: docker
+  container_image: mmbirb/zip:latest
+  container_volume_path: /tmp
 ```
 
 #### Singularity config file
 
 
 ```python
-
+properties:
+  boolean_property: false
+  remove_tmp: true
+  executable_binary_property: /opt/conda/bin/zip
+  container_path: singularity
+  container_image: bioexcel-zip_container-master-latest.simg
+  container_volume_path: /tmp
 ```
 
 #### Command line
@@ -122,14 +134,31 @@ template --config data/conf/template.yml --input_file_path1 data/input/topology.
 
 
 ```python
-
+{
+  "properties": {
+    "boolean_property": false,
+    "remove_tmp": true,
+    "container_path": "docker",
+    "container_image": "mmbirb/zip:latest",
+    "container_volume_path": "/tmp"
+  }
+}
 ```
 
 #### Singularity config file
 
 
 ```python
-
+{
+  "properties": {
+    "boolean_property": false,
+    "remove_tmp": true,
+    "executable_binary_property": "/opt/conda/bin/zip",
+    "container_path": "singularity",
+    "container_image": "bioexcel-zip_container-master-latest.simg",
+    "container_volume_path": "/tmp"
+  }
+}
 ```
 
 #### Command line

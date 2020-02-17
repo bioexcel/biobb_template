@@ -114,6 +114,8 @@ traj_comp.xtc
 
 # logs
 log.*
+*.err
+*.out
 
 # outputs notebook
 biobb_template/notebooks/template/*.*

@@ -3,7 +3,6 @@
 """Module containing the Template class and the command line interface."""
 import argparse
 import shutil
-import os
 from pathlib import Path, PurePath
 from biobb_common.configuration import  settings
 from biobb_common.tools import file_utils as fu
@@ -22,12 +21,6 @@ class Template():
             * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
             * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
             * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
-            * **container_path** (*string*) - (None) Container path definition.
-            * **container_image** (*string*) - ('image/image:latest') Container image definition.
-            * **container_volume_path** (*string*) - ('/tmp') Container volume path definition.
-            * **container_working_dir** (*string*) - (None) Container working directory definition.
-            * **container_user_id** (*string*) - (None) Container user_id definition.
-            * **container_shell_path** (*string*) - ('/bin/bash') Path to default shell inside the container.
     """
 
     def __init__(self, input_file_path1, input_file_path2, output_file_path, properties, **kwargs):
@@ -41,18 +34,8 @@ class Template():
 
         # Properties specific for BB
         self.properties = properties
-        self.float_property = properties.get('float_property',1.0)
-        self.string_property = properties.get('string_property', 'foo')
         self.boolean_property = properties.get('boolean_property', True)
         self.executable_binary_property = properties.get('executable_binary_property', 'zip')
-
-        # container Specific
-        self.container_path = properties.get('container_path')
-        self.container_image = properties.get('container_image', 'image/image:latest')
-        self.container_volume_path = properties.get('container_volume_path', '/tmp')
-        self.container_working_dir = properties.get('container_working_dir')
-        self.container_user_id = properties.get('container_user_id')
-        self.container_shell_path = properties.get('container_shell_path', '/bin/bash')
 
         # Properties common in all BB
         self.can_write_console_log = properties.get('can_write_console_log', True)
@@ -81,15 +64,12 @@ class Template():
                 fu.log('Restart is enabled, this step: %s will the skipped' % self.step, out_log, self.global_log)
                 return 0
 
-        # Copy inputs to container
-        container_io_dict = fu.copy_to_container(self.container_path, self.container_volume_path, self.io_dict)
-
         # Creating temporary folder
         self.tmp_folder = fu.create_unique_dir()
         fu.log('Creating %s temporary folder' % self.tmp_folder, out_log)
 
         # Copy input_file_path1 to temporary folder
-        shutil.copy(container_io_dict['in']['input_file_path1'], self.tmp_folder)
+        shutil.copy(self.io_dict['in']['input_file_path1'], self.tmp_folder)
 
         # Instructions for command line
         instructions = ['-j']
@@ -100,24 +80,20 @@ class Template():
         # Creting command line
         cmd = [self.executable_binary_property,
                ' '.join(instructions), 
-               container_io_dict['out']['output_file_path'],
-               str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path1']).name))]
+               self.io_dict['out']['output_file_path'],
+               str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
         fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
 
         # Add optional input file if provided
-        if container_io_dict['in']['input_file_path2']:
+        if self.io_dict['in']['input_file_path2']:
             # Copy input_file_path2 to temporary folder
-            shutil.copy(container_io_dict['in']['input_file_path2'], self.tmp_folder)
+            shutil.copy(self.io_dict['in']['input_file_path2'], self.tmp_folder)
             # Append optional input_file_path2 to cmd
-            cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(container_io_dict['in']['input_file_path2']).name)))
+            cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
             fu.log('Appending optional argument to command line', out_log, self.global_log)
 
         # Launch execution
-        cmd = fu.create_cmd_line(cmd, container_path=self.container_path, host_volume=container_io_dict.get('unique_dir'), container_volume=self.container_volume_path, container_working_dir=self.container_working_dir, container_user_uid=self.container_user_id, container_image=self.container_image, container_shell_path=self.container_shell_path, out_log=out_log, global_log=self.global_log)
         returncode = cmd_wrapper.CmdWrapper(cmd, out_log, err_log, self.global_log).launch()
-
-        # Copy output(s) to output(s) path(s) in case of container execution
-        fu.copy_to_host(self.container_path, container_io_dict, self.io_dict)
 
         # Remove temporary file(s)
         if self.remove_tmp: 
@@ -136,7 +112,7 @@ def main():
     required_args = parser.add_argument_group('required arguments')
     required_args.add_argument('--input_file_path1', required=True, help='Description for the first input file path. Accepted formats: top.')
     parser.add_argument('--input_file_path2', required=False, help='Description for the second input file path (optional). Accepted formats: dcd.')
-    required_args.add_argument('--output_file_path', required=True, help='Description for the output file path. Accepted formats: zip, gz, gzip.')
+    required_args.add_argument('--output_file_path', required=True, help='Description for the output file path. Accepted formats: zip.')
 
     args = parser.parse_args()
     config = args.config if args.config else None

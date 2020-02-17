@@ -9,3 +9,36 @@ template:
   properties:
     boolean_property: false
     remove_tmp: true
+
+template_docker:
+  paths:
+    input_file_path1: file:test_data_dir/template/topology.top
+    input_file_path2: file:test_data_dir/template/trajectory.dcd
+    output_file_path: output.zip
+    ref_output_file_path: file:test_reference_dir/template/output.container.zip
+  properties:
+    boolean_property: false
+    remove_tmp: true
+    container_path: docker
+    container_image: mmbirb/zip:latest
+    container_volume_path: /tmp
+
+template_singularity:
+  paths:
+    input_file_path1: file:test_data_dir/template/topology.top
+    input_file_path2: file:test_data_dir/template/trajectory.dcd
+    output_file_path: output.zip
+    ref_output_file_path: file:test_reference_dir/template/output.container.zip
+  properties:
+    boolean_property: false
+    remove_tmp: true
+    executable_binary_property: /opt/conda/bin/zip
+    container_path: singularity
+    container_image: bioexcel-zip_container-master-latest.simg
+    container_volume_path: /tmp
+
+
+
+
+
+

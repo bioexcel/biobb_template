@@ -7,4 +7,5 @@ dependencies:
   - biobb_common==2.0.1
   - nb_conda_kernels
   - nose
+  - zip
   - conda
