@@ -3,7 +3,7 @@ from biobb_template.template.template_container import TemplateContainer
 
 class TestTemplateDocker():
     def setUp(self):
-        fx.test_setup(self, 'template_docker')
+        fx.test_setup(self, 'template_container')
 
     def tearDown(self):
         fx.test_teardown(self)

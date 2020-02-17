@@ -10,7 +10,7 @@ template:
     boolean_property: false
     remove_tmp: true
 
-template_docker:
+template_container:
   paths:
     input_file_path1: file:test_data_dir/template/topology.top
     input_file_path2: file:test_data_dir/template/trajectory.dcd
