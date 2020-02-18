@@ -21,12 +21,12 @@ class TemplateContainer():
             * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
             * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
             * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
-            * **container_path** (*string*) - (None) Container path definition.
-            * **container_image** (*string*) - ('mmbirb/zip:latest') Container image definition.
-            * **container_volume_path** (*string*) - ('/tmp') Container volume path definition.
-            * **container_working_dir** (*string*) - (None) Container working directory definition.
-            * **container_user_id** (*string*) - (None) Container user_id definition.
-            * **container_shell_path** (*string*) - ('/bin/bash') Path to default shell inside the container.
+            * **container_path** (*str*) - (None) Container path definition.
+            * **container_image** (*str*) - ('mmbirb/zip:latest') Container image definition.
+            * **container_volume_path** (*str*) - ('/tmp') Container volume path definition.
+            * **container_working_dir** (*str*) - (None) Container working directory definition.
+            * **container_user_id** (*str*) - (None) Container user_id definition.
+            * **container_shell_path** (*str*) - ('/bin/bash') Path to default shell inside the container.
     """
 
     def __init__(self, input_file_path1, input_file_path2, output_file_path, properties, **kwargs):
@@ -62,7 +62,7 @@ class TemplateContainer():
 
     @launchlogger
     def launch(self):
-        """Launches the execution of the template module."""
+        """Launches the execution of the template_container module."""
         
         # Get local loggers from launchlogger decorator
         out_log = getattr(self, 'out_log', None)
@@ -108,7 +108,7 @@ class TemplateContainer():
         fu.copy_to_host(self.container_path, container_io_dict, self.io_dict)
 
         # Remove temporary file(s)
-        if container_io_dict.get('unique_dir'): 
+        if self.remove_tmp and container_io_dict.get('unique_dir'): 
             fu.rm(container_io_dict.get('unique_dir'))
             fu.log('Removed: %s' % str(container_io_dict.get('unique_dir')), out_log)
 
