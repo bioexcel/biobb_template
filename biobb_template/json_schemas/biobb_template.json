@@ -6,13 +6,19 @@
     "conda": "",
     "docker": "",
     "singularity": "",
-    "version": "2.0.0",
+    "version": "1.0.0",
     "tools" : [
         {
             "block" : "Template", 
-            "tool" : "tool", 
+            "tool" : "zip", 
             "desc" : "Description for the template module.",
             "exec" : "template"
+        },
+        {
+            "block" : "TemplateContainer", 
+            "tool" : "zip", 
+            "desc" : "Description for the template_container module.",
+            "exec" : "template_container"
         }
     ],
     "dep_pypi" : [

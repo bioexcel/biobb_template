@@ -40,7 +40,7 @@ cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3
 conda activate biobb_template
 ```
 
-Additionnally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Execution in command line](https://biobb-documentation.readthedocs.io/en/latest/execution.html#execution-in-command-line) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
+Additionnally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
 
 ### Documentation
 
