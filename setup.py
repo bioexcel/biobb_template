@@ -8,7 +8,7 @@ setuptools.setup(
     version="1.0.0",
     author="Biobb developers",
     author_email="your@email.com",
-    description="Biobb_template is the Biobb module collection to perform molecular dynamics simulations.",
+    description="Biobb_template is a complete code template to promote and facilitate the creation of new Biobbs by the community.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords="Bioinformatics Workflows BioExcel Compatibility",

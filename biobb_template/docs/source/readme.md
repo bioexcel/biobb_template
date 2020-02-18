@@ -16,22 +16,37 @@ v1.0.0 2020.1
 
 ### Installation
 
+If you have no experience with anaconda, please first take a look to the [New with anaconda?](https://biobb-documentation.readthedocs.io/en/latest/first_steps.html#new-with-anaconda) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
+
 Clone repository to your computer and create new conda environment:
 
 ```console
 git https://github.com/bioexcel/biobb_template.git
 cd biobb_template
 conda env create -f conda_env/environment.yml
-# edit conda_env/biobb_template.pth with the paths to your biobb_template folder
-# in the line below, modify second path by path to your anaconda environment
-cp conda_env/biobb_template.pth </anaconda-path/envs/biobb_template/lib/python3.6/site-packages>
+```
+
+Edit **conda_env/biobb_template.pth** with the paths to your *biobb_template* folder. Example:
+
+```console
+/home/user_name/projects/biobb_template/
+/home/user_name/projects/biobb_template/biobb_template/biobb_template
+```
+
+Copy the edited **conda_env/biobb_template.pth** file to the site-packages folder of your environment. This folder is in */[anaconda-path]/envs/biobb_template/lib/python3.6/site-packages*, where */[anaconda-path]* is usually */anaconda3* or */opt/conda*. Then, activate the recently created *biobb_template* conda environment.
+
+```console
+cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3.6/site-packages
 conda activate biobb_template
 ```
+
+Additionnally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Execution in command line](https://biobb-documentation.readthedocs.io/en/latest/execution.html#execution-in-command-line) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
+
 ### Documentation
 
 [Click here to find the API Documentation example](https://biobb-template.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb_template.readthedocs.io/en/latest/command_line.html).
 
-And here for finding [the full documentation](https://biobb-documentation.readthedocs.io/en/latest/) about how to build a new **BioExcel building block** from scratch.
+And here you can find [the full documentation](https://biobb-documentation.readthedocs.io/en/latest/) about how to build a new **BioExcel building block** from scratch.
 
 ### Copyright & Licensing
 This software has been developed in the [MMB group](http://mmb.irbbarcelona.org) at the [BSC](http://www.bsc.es/) & [IRB](https://www.irbbarcelona.org/) for the [European BioExcel](http://bioexcel.eu/), funded by the European Commission (EU H2020 [823830](http://cordis.europa.eu/projects/823830), EU H2020 [675728](http://cordis.europa.eu/projects/675728)).

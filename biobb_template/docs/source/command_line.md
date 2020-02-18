@@ -1,4 +1,3 @@
-
 # BioBB Template Command Line Help
 
 Generic usage:
@@ -9,6 +8,8 @@ biobb_command [-h] --config CONFIG [--system SYSTEM] [--step STEP] --input_file(
 ```
 
 Please refer to the [system & step documentation](https://biobb-common.readthedocs.io/en/latest/system_step.html) for more information of these two parameters.
+
+For more information about how to configurate binaries in your conda environment, please go to [Execution in command line](https://biobb-documentation.readthedocs.io/en/latest/execution.html#execution-in-command-line) section in the official documentation.
 
 ***
 
@@ -66,6 +67,100 @@ Config parameters for this building block:
 * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
 * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
 * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
+
+### YAML
+
+#### Config file (template.yml)
+
+
+```python
+properties:
+  boolean_property: false
+  remove_tmp: true
+```
+
+#### Command line
+
+
+```python
+template --config data/conf/template.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
+```
+
+### JSON
+
+#### Config file (template.json)
+
+
+```python
+{
+  "properties": {
+    "boolean_property": false,
+    "remove_tmp": true
+  }
+}
+```
+
+#### Command line
+
+
+```python
+template --config data/conf/template.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
+```
+
+## TemplateContainer
+
+Description for the template_container module.
+
+### Get help
+
+Command:
+
+
+```python
+template_container -h
+```
+
+
+```python
+usage: template_container [-h] [--config CONFIG] [--system SYSTEM] [--step STEP] --input_file_path1 INPUT_FILE_PATH1 [--input_file_path2 INPUT_FILE_PATH2] --output_file_path OUTPUT_FILE_PATH
+
+Description for the template module.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --config CONFIG       Configuration file
+  --system SYSTEM       Check "https://biobb-common.readthedocs.io/en/latest/system_step.html" for help
+  --step STEP           Check "https://biobb-common.readthedocs.io/en/latest/system_step.html" for help
+  --input_file_path2 INPUT_FILE_PATH2
+                        Description for the second input file path (optional). Accepted formats: dcd.
+
+required arguments:
+  --input_file_path1 INPUT_FILE_PATH1
+                        Description for the first input file path. Accepted formats: top.
+  --output_file_path OUTPUT_FILE_PATH
+                        Description for the output file path. Accepted formats: zip.
+```
+
+### I / O Arguments
+
+Syntax: input_argument (datatype) : Definition
+
+Config input / output arguments for this building block:
+
+* **input_file_path1** (str): Description for the first input file path. File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: top.
+* **input_file_path2** (str) (Optional): Description for the second input file path (optional). File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: dcd.
+* **output_file_path** (str): Description for the output file path. File type: output. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: zip.
+
+### Config
+
+Syntax: input_parameter (datatype) - (default_value) Definition
+
+Config parameters for this building block:
+    
+* **boolean_property** (*bool*) - (True) Example of boolean property.
+* **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
+* **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
+* **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
 * **container_path** (*string*) - (None) Container path definition.
 * **container_image** (*string*) - ('image/image:latest') Container image definition.
 * **container_volume_path** (*string*) - ('/tmp') Container volume path definition.
@@ -75,16 +170,7 @@ Config parameters for this building block:
 
 ### YAML
 
-#### Common config file
-
-
-```python
-properties:
-  boolean_property: false
-  remove_tmp: true
-```
-
-#### Docker config file
+#### Docker config file (template_docker.yml)
 
 
 ```python
@@ -96,7 +182,14 @@ properties:
   container_volume_path: /tmp
 ```
 
-#### Singularity config file
+#### Command line
+
+
+```python
+template_container --config data/conf/template_docker.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.docker.zip
+```
+
+#### Singularity config file (template_singularity.yml)
 
 
 ```python
@@ -113,24 +206,12 @@ properties:
 
 
 ```python
-template --config data/conf/template.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
+template_container --config data/conf/template_singularity.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.singularity.zip
 ```
 
 ### JSON
 
-#### Common config file
-
-
-```python
-{
-  "properties": {
-    "boolean_property": false,
-    "remove_tmp": true
-  }
-}
-```
-
-#### Docker config file
+#### Docker config file (template_docker.json)
 
 
 ```python
@@ -145,7 +226,14 @@ template --config data/conf/template.yml --input_file_path1 data/input/topology.
 }
 ```
 
-#### Singularity config file
+#### Command line
+
+
+```python
+template_container --config data/conf/template_docker.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.docker.zip
+```
+
+#### Singularity config file (template_singularity.json)
 
 
 ```python
@@ -165,5 +253,5 @@ template --config data/conf/template.yml --input_file_path1 data/input/topology.
 
 
 ```python
-template --config data/conf/template.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
+template_container --config data/conf/template_singularity.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.singularity.zip
 ```
