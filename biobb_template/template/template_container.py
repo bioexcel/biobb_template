@@ -101,7 +101,14 @@ class TemplateContainer():
             fu.log('Appending optional argument to command line', out_log, self.global_log)
 
         # Create cmd and launch execution
-        cmd = fu.create_cmd_line(cmd, container_path=self.container_path, host_volume=container_io_dict.get('unique_dir'), container_volume=self.container_volume_path, container_working_dir=self.container_working_dir, container_user_uid=self.container_user_id, container_image=self.container_image, container_shell_path=self.container_shell_path, out_log=out_log, global_log=self.global_log)
+        cmd = fu.create_cmd_line(cmd, container_path=self.container_path, 
+                                 host_volume=container_io_dict.get('unique_dir'), 
+                                 container_volume=self.container_volume_path, 
+                                 container_working_dir=self.container_working_dir, 
+                                 container_user_uid=self.container_user_id, 
+                                 container_image=self.container_image, 
+                                 container_shell_path=self.container_shell_path, 
+                                 out_log=out_log, global_log=self.global_log)
         returncode = cmd_wrapper.CmdWrapper(cmd, out_log, err_log, self.global_log).launch()
 
         # Copy output(s) to output(s) path(s) in case of container execution
@@ -117,8 +124,6 @@ class TemplateContainer():
 def main():
     parser = argparse.ArgumentParser(description='Description for the template module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
     parser.add_argument('--config', required=False, help='Configuration file')
-    parser.add_argument('--system', required=False, help='Check "https://biobb-common.readthedocs.io/en/latest/system_step.html" for help')
-    parser.add_argument('--step', required=False, help='Check "https://biobb-common.readthedocs.io/en/latest/system_step.html" for help')
 
     # Specific args of each building block
     required_args = parser.add_argument_group('required arguments')
@@ -128,12 +133,12 @@ def main():
 
     args = parser.parse_args()
     config = args.config if args.config else None
-    properties = settings.ConfReader(config=config, system=args.system).get_prop_dic()
-    if args.step:
-        properties = properties[args.step]
+    properties = settings.ConfReader(config=config).get_prop_dic()
 
     # Specific call of each building block
-    TemplateContainer(input_file_path1=args.input_file_path1, input_file_path2=args.input_file_path2, output_file_path=args.output_file_path, properties=properties).launch()
+    TemplateContainer(input_file_path1=args.input_file_path1, input_file_path2=args.input_file_path2, 
+                      output_file_path=args.output_file_path, 
+                      properties=properties).launch()
 
 if __name__ == '__main__':
     main()
