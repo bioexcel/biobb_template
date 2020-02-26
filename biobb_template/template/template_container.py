@@ -9,6 +9,7 @@ from biobb_common.tools import file_utils as fu
 from biobb_common.tools.file_utils import launchlogger
 from biobb_common.command_wrapper import cmd_wrapper
 
+# 1. Rename class as required
 class TemplateContainer():
     """Description for the template container (http://templatedocumentation.org) module.
 
@@ -29,14 +30,19 @@ class TemplateContainer():
             * **container_shell_path** (*str*) - ('/bin/bash') Path to default shell inside the container.
     """
 
+    # 2. Adapt input and output file paths as required. Include all files, even optional ones
     def __init__(self, input_file_path1, input_file_path2, output_file_path, properties, **kwargs):
         properties = properties or {}
 
+        # 2.1 Modify to match constructor parameters
         # Input/Output files
         self.io_dict = { 
             'in': { 'input_file_path1': input_file_path1, 'input_file_path2': input_file_path2 }, 
             'out': { 'output_file_path': output_file_path } 
         }
+
+        # 3. Include all relevant properties here as 
+        # self.property_name = properties.get('property_name', property_default_value)
 
         # Properties specific for BB
         self.properties = properties
@@ -73,34 +79,38 @@ class TemplateContainer():
 
         # Restart
         if self.restart:
+            # 4. Include here all output file paths
             output_file_list = [self.io_dict['out']['output_file_path']]
             if fu.check_complete_files(output_file_list):
                 fu.log('Restart is enabled, this step: %s will the skipped' % self.step, out_log, self.global_log)
                 return 0
 
-        # Copy inputs to container
+        # 5. Copy inputs to container
         container_io_dict = fu.copy_to_container(self.container_path, self.container_volume_path, self.io_dict)
 
-        # Instructions for command line
+        # 6. Prepare the command line parameters as instructions list
         instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
             fu.log('Appending optional boolean property', out_log, self.global_log)
 
-        # Creting command line
+        # 7. Build the actual command line as a list of items (elements order will be maintained)
         cmd = [self.executable_binary_property,
                ' '.join(instructions), 
                container_io_dict['out']['output_file_path'],
                container_io_dict['in']['input_file_path1']]
         fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
 
-        # Add optional input file if provided
+        # 8. Repeat for optional input files if provided
         if container_io_dict['in']['input_file_path2']:
             # Append optional input_file_path2 to cmd
             cmd.append(container_io_dict['in']['input_file_path2'])
             fu.log('Appending optional argument to command line', out_log, self.global_log)
 
-        # Create cmd and launch execution
+        # 9. Uncomment to check the command line 
+        # print(' '.join(cmd))
+
+        # 10. Create cmd with specdific syntax according to the required container
         cmd = fu.create_cmd_line(cmd, container_path=self.container_path, 
                                  host_volume=container_io_dict.get('unique_dir'), 
                                  container_volume=self.container_volume_path, 
@@ -109,6 +119,8 @@ class TemplateContainer():
                                  container_image=self.container_image, 
                                  container_shell_path=self.container_shell_path, 
                                  out_log=out_log, global_log=self.global_log)
+
+        # Launch execution
         returncode = cmd_wrapper.CmdWrapper(cmd, out_log, err_log, self.global_log).launch()
 
         # Copy output(s) to output(s) path(s) in case of container execution
@@ -125,7 +137,7 @@ def main():
     parser = argparse.ArgumentParser(description='Description for the template module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
     parser.add_argument('--config', required=False, help='Configuration file')
 
-    # Specific args of each building block
+    # 11. Include specific args of each building block following the examples. They should match step 2
     required_args = parser.add_argument_group('required arguments')
     required_args.add_argument('--input_file_path1', required=True, help='Description for the first input file path. Accepted formats: top.')
     parser.add_argument('--input_file_path2', required=False, help='Description for the second input file path (optional). Accepted formats: dcd.')
@@ -135,6 +147,7 @@ def main():
     config = args.config if args.config else None
     properties = settings.ConfReader(config=config).get_prop_dic()
 
+    # 12. Adapt to match Class constructor (step 2)
     # Specific call of each building block
     TemplateContainer(input_file_path1=args.input_file_path1, input_file_path2=args.input_file_path2, 
                       output_file_path=args.output_file_path, 
@@ -142,3 +155,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# 13. Complete documentation strings
