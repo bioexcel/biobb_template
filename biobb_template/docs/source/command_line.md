@@ -193,7 +193,7 @@ properties:
   remove_tmp: true
   executable_binary_property: /opt/conda/bin/zip
   container_path: singularity
-  container_image: bioexcel-zip_container-master-latest.simg
+  container_image: zip.sif
   container_volume_path: /tmp
 ```
 
@@ -238,7 +238,7 @@ template_container --config data/conf/template_docker.json --input_file_path1 da
     "remove_tmp": true,
     "executable_binary_property": "/opt/conda/bin/zip",
     "container_path": "singularity",
-    "container_image": "bioexcel-zip_container-master-latest.simg",
+    "container_image": "zip.sif",
     "container_volume_path": "/tmp"
   }
 }

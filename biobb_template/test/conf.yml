@@ -34,7 +34,7 @@ template_singularity:
     remove_tmp: true
     executable_binary_property: /opt/conda/bin/zip
     container_path: singularity
-    container_image: bioexcel-zip_container-master-latest.simg
+    container_image: zip.sif
     container_volume_path: /tmp
 
 
