@@ -21,7 +21,7 @@ If you have no experience with anaconda, please first take a look to the [New wi
 Clone repository to your computer and create new conda environment:
 
 ```console
-git https://github.com/bioexcel/biobb_template.git
+git clone https://github.com/bioexcel/biobb_template.git
 cd biobb_template
 conda env create -f conda_env/environment.yml
 ```
@@ -40,7 +40,7 @@ cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3
 conda activate biobb_template
 ```
 
-Additionnally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
+Additionally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
 
 ### Documentation
 
