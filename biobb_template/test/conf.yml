@@ -31,10 +31,10 @@ template_singularity:
     ref_output_file_path: file:test_reference_dir/template/output.container.zip
   properties:
     boolean_property: false
-    remove_tmp: true
+    remove_tmp: false
     executable_binary_property: /opt/conda/bin/zip
     container_path: singularity
-    container_image: zip.sif
+    container_image: bioexcel-zip_container-master-latest.simg
     container_volume_path: /tmp
 
 

@@ -1,0 +1,6 @@
+properties:
+  boolean_property: false
+  container_image: mmbirb/zip:latest
+  container_path: docker
+  container_volume_path: /tmp
+  remove_tmp: true

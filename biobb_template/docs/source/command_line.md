@@ -1,214 +1,71 @@
-
-# BioBB Template Command Line Help
-
+# BioBB TEMPLATE Command Line Help
 Generic usage:
-
-
 ```python
 biobb_command [-h] --config CONFIG --input_file(s) <input_file(s)> --output_file <output_file>
 ```
+-----------------
 
-For more information about how to configurate binaries in your conda environment, please go to [Execution in command line](https://biobb-documentation.readthedocs.io/en/latest/execution.html#execution-in-command-line) section in the official documentation.
 
-***
-
-## Template
-
-Description for the template module.
-
+## Template_container
+Short description for the template container module in Restructured Text (reST) syntax. Mandatory.
 ### Get help
-
 Command:
-
-
-```python
-template -h
-```
-
-
-```python
-usage: template [-h] [--config CONFIG] --input_file_path1 INPUT_FILE_PATH1 [--input_file_path2 INPUT_FILE_PATH2] --output_file_path OUTPUT_FILE_PATH
-
-Description for the template module.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --config CONFIG       Configuration file
-  --input_file_path2 INPUT_FILE_PATH2
-                        Description for the second input file path (optional). Accepted formats: dcd.
-
-required arguments:
-  --input_file_path1 INPUT_FILE_PATH1
-                        Description for the first input file path. Accepted formats: top.
-  --output_file_path OUTPUT_FILE_PATH
-                        Description for the output file path. Accepted formats: zip.
-```
-
-### I / O Arguments
-
-Syntax: input_argument (datatype) : Definition
-
-Config input / output arguments for this building block:
-
-* **input_file_path1** (str): Description for the first input file path. File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: top.
-* **input_file_path2** (str) (Optional): Description for the second input file path (optional). File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: dcd.
-* **output_file_path** (str): Description for the output file path. File type: output. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: zip.
-
-### Config
-
-Syntax: input_parameter (datatype) - (default_value) Definition
-
-Config parameters for this building block:
-    
-* **boolean_property** (*bool*) - (True) Example of boolean property.
-* **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
-* **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
-* **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
-
-### YAML
-
-#### Config file (template.yml)
-
-
-```python
-properties:
-  boolean_property: false
-  remove_tmp: true
-```
-
-#### Command line
-
-
-```python
-template --config data/conf/template.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
-```
-
-### JSON
-
-#### Config file (template.json)
-
-
-```python
-{
-  "properties": {
-    "boolean_property": false,
-    "remove_tmp": true
-  }
-}
-```
-
-#### Command line
-
-
-```python
-template --config data/conf/template.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.zip
-```
-
-## TemplateContainer
-
-Description for the template_container module.
-
-### Get help
-
-Command:
-
-
 ```python
 template_container -h
 ```
-
-
-```python
-usage: template_container [-h] [--config CONFIG] --input_file_path1 INPUT_FILE_PATH1 [--input_file_path2 INPUT_FILE_PATH2] --output_file_path OUTPUT_FILE_PATH
-
-Description for the template module.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --config CONFIG       Configuration file
-  --input_file_path2 INPUT_FILE_PATH2
-                        Description for the second input file path (optional). Accepted formats: dcd.
-
-required arguments:
-  --input_file_path1 INPUT_FILE_PATH1
-                        Description for the first input file path. Accepted formats: top.
-  --output_file_path OUTPUT_FILE_PATH
-                        Description for the output file path. Accepted formats: zip.
-```
-
+    usage: template_container [-h] [--config CONFIG] --input_file_path1 INPUT_FILE_PATH1 [--input_file_path2 INPUT_FILE_PATH2] --output_file_path OUTPUT_FILE_PATH
+    
+    Description for the template container module.
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --config CONFIG       Configuration file
+      --input_file_path2 INPUT_FILE_PATH2
+                            Description for the second input file path (optional). Accepted formats: dcd.
+    
+    required arguments:
+      --input_file_path1 INPUT_FILE_PATH1
+                            Description for the first input file path. Accepted formats: top.
+      --output_file_path OUTPUT_FILE_PATH
+                            Description for the output file path. Accepted formats: zip.
 ### I / O Arguments
-
 Syntax: input_argument (datatype) : Definition
 
 Config input / output arguments for this building block:
-
-* **input_file_path1** (str): Description for the first input file path. File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: top.
-* **input_file_path2** (str) (Optional): Description for the second input file path (optional). File type: input. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: dcd.
-* **output_file_path** (str): Description for the output file path. File type: output. ``` `Sample file <https://urlto.sample>`_ ```. Accepted formats: zip.
-
+* **input_file_path1** (*string*): Description for the first input file path. File type: input. [Sample file](https://urlto.sample). Accepted formats: TOP
+* **input_file_path2** (*string*): Description for the second input file path (optional). File type: input. [Sample file](https://urlto.sample). Accepted formats: DCD
+* **output_file_path** (*string*): Description for the output file path. File type: output. [Sample file](https://urlto.sample). Accepted formats: ZIP
 ### Config
-
 Syntax: input_parameter (datatype) - (default_value) Definition
 
 Config parameters for this building block:
-    
-* **boolean_property** (*bool*) - (True) Example of boolean property.
-* **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
-* **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
-* **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
-* **container_path** (*string*) - (None) Container path definition.
-* **container_image** (*string*) - ('image/image:latest') Container image definition.
-* **container_volume_path** (*string*) - ('/tmp') Container volume path definition.
-* **container_working_dir** (*string*) - (None) Container working directory definition.
-* **container_user_id** (*string*) - (None) Container user_id definition.
-* **container_shell_path** (*string*) - ('/bin/bash') Path to default shell inside the container.
-
+* **boolean_property** (*boolean*): (True) Example of boolean property..
+* **executable_binary_property** (*string*): (zip) Example of executable binary property..
+* **remove_tmp** (*boolean*): (True) Remove temporal files..
+* **restart** (*boolean*): (False) Do not execute if output files exist..
+* **container_path** (*string*): (None) Container path definition..
+* **container_image** (*string*): (mmbirb/zip:latest) Container image definition..
+* **container_volume_path** (*string*): (/tmp) Container volume path definition..
+* **container_working_dir** (*string*): (None) Container working directory definition..
+* **container_user_id** (*string*): (None) Container user_id definition..
+* **container_shell_path** (*string*): (/bin/bash) Path to default shell inside the container..
 ### YAML
-
-#### Docker config file (template_docker.yml)
-
-
+#### [Common config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template_container.yml)
 ```python
 properties:
   boolean_property: false
-  remove_tmp: true
-  container_path: docker
   container_image: mmbirb/zip:latest
+  container_path: docker
   container_volume_path: /tmp
-```
-
-#### Command line
-
-
-```python
-template_container --config data/conf/template_docker.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.docker.zip
-```
-
-#### Singularity config file (template_singularity.yml)
-
-
-```python
-properties:
-  boolean_property: false
   remove_tmp: true
-  executable_binary_property: /opt/conda/bin/zip
-  container_path: singularity
-  container_image: zip.sif
-  container_volume_path: /tmp
-```
 
+```
 #### Command line
-
-
 ```python
-template_container --config data/conf/template_singularity.yml --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.singularity.zip
+template_container --config config_template_container.yml --input_file_path1 urlto.sample --input_file_path2 urlto.sample --output_file_path urlto.sample
 ```
-
 ### JSON
-
-#### Docker config file (template_docker.json)
-
-
+#### [Common config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template_container.json)
 ```python
 {
   "properties": {
@@ -220,33 +77,95 @@ template_container --config data/conf/template_singularity.yml --input_file_path
   }
 }
 ```
-
 #### Command line
-
-
 ```python
-template_container --config data/conf/template_docker.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.docker.zip
+template_container --config config_template_container.json --input_file_path1 urlto.sample --input_file_path2 urlto.sample --output_file_path urlto.sample
 ```
 
-#### Singularity config file (template_singularity.json)
+## Template
+Short description for the template module in Restructured Text (reST) syntax. Mandatory.
+### Get help
+Command:
+```python
+template -h
+```
+    usage: template [-h] [--config CONFIG] --input_file_path1 INPUT_FILE_PATH1 [--input_file_path2 INPUT_FILE_PATH2] --output_file_path OUTPUT_FILE_PATH
+    
+    Description for the template module.
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      --config CONFIG       Configuration file
+      --input_file_path2 INPUT_FILE_PATH2
+                            Description for the second input file path (optional). Accepted formats: dcd.
+    
+    required arguments:
+      --input_file_path1 INPUT_FILE_PATH1
+                            Description for the first input file path. Accepted formats: top.
+      --output_file_path OUTPUT_FILE_PATH
+                            Description for the output file path. Accepted formats: zip.
+### I / O Arguments
+Syntax: input_argument (datatype) : Definition
 
+Config input / output arguments for this building block:
+* **input_file_path1** (*string*): Description for the first input file path. File type: input. [Sample file](https://urlto.sample). Accepted formats: TOP
+* **input_file_path2** (*string*): Description for the second input file path (optional). File type: input. [Sample file](https://urlto.sample). Accepted formats: DCD
+* **output_file_path** (*string*): Description for the output file path. File type: output. [Sample file](https://urlto.sample). Accepted formats: ZIP
+### Config
+Syntax: input_parameter (datatype) - (default_value) Definition
 
+Config parameters for this building block:
+* **boolean_property** (*boolean*): (True) Example of boolean property..
+* **executable_binary_property** (*string*): (zip) Example of executable binary property..
+* **remove_tmp** (*boolean*): (True) Remove temporal files..
+* **restart** (*boolean*): (False) Do not execute if output files exist..
+### YAML
+#### [Common config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template.yml)
+```python
+properties:
+  boolean_property: false
+  remove_tmp: true
+
+```
+#### [Singularity config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template_singularity.yml)
+```python
+properties:
+  boolean_property: false
+  container_image: bioexcel-zip_container-master-latest.simg
+  container_path: singularity
+  container_volume_path: /tmp
+  executable_binary_property: /opt/conda/bin/zip
+  remove_tmp: false
+
+```
+#### Command line
+```python
+template --config config_template.yml --input_file_path1 urlto.sample --input_file_path2 urlto.sample --output_file_path urlto.sample
+```
+### JSON
+#### [Common config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template.json)
 ```python
 {
   "properties": {
     "boolean_property": false,
-    "remove_tmp": true,
+    "remove_tmp": true
+  }
+}
+```
+#### [Singularity config file](https://github.com/bioexcel/biobb_template/blob/master/biobb_template/test/data/config/config_template_singularity.json)
+```python
+{
+  "properties": {
+    "boolean_property": false,
+    "remove_tmp": false,
     "executable_binary_property": "/opt/conda/bin/zip",
     "container_path": "singularity",
-    "container_image": "zip.sif",
+    "container_image": "bioexcel-zip_container-master-latest.simg",
     "container_volume_path": "/tmp"
   }
 }
 ```
-
 #### Command line
-
-
 ```python
-template_container --config data/conf/template_singularity.json --input_file_path1 data/input/topology.top --input_file_path2 data/input/trajectory.dcd --output_file_path data/output/output.singularity.zip
+template --config config_template.json --input_file_path1 urlto.sample --input_file_path2 urlto.sample --output_file_path urlto.sample
 ```

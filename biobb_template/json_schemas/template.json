@@ -1,8 +1,21 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "http://bioexcel.eu/biobb_template/json_schemas/1.0/template",
-    "title": "Description for the template (http://templatedocumentation.org) module.",
+    "name": "biobb_template Template",
+    "title": "Short description for the template module in Restructured Text (reST) syntax. Mandatory.",
+    "description": "Long description for the template module in Restructured Text (reST) syntax. Optional.",
     "type": "object",
+    "info": {
+        "wrapped_software": {
+            "name": "Zip",
+            "version": ">=3.0",
+            "license": "BSD 3-Clause"
+        },
+        "ontology": {
+            "name": "EDAM",
+            "schema": "http://edamontology.org/EDAM.owl"
+        }
+    },
     "required": [
         "input_file_path1",
         "output_file_path"
@@ -15,6 +28,13 @@
             "sample": "https://urlto.sample",
             "enum": [
                 ".*\\.top$"
+            ],
+            "file_formats": [
+                {
+                    "extension": ".*\\.top$",
+                    "description": "Description for the first input file path",
+                    "edam": "format_3881"
+                }
             ]
         },
         "input_file_path2": {
@@ -24,6 +44,13 @@
             "sample": "https://urlto.sample",
             "enum": [
                 ".*\\.dcd$"
+            ],
+            "file_formats": [
+                {
+                    "extension": ".*\\.dcd$",
+                    "description": "Description for the second input file path (optional)",
+                    "edam": "format_3878"
+                }
             ]
         },
         "output_file_path": {
@@ -33,6 +60,13 @@
             "sample": "https://urlto.sample",
             "enum": [
                 ".*\\.zip$"
+            ],
+            "file_formats": [
+                {
+                    "extension": ".*\\.zip$",
+                    "description": "Description for the output file path",
+                    "edam": "format_3987"
+                }
             ]
         },
         "properties": {
@@ -41,22 +75,26 @@
                 "boolean_property": {
                     "type": "boolean",
                     "default": true,
+                    "wf_prop": false,
                     "description": "Example of boolean property."
                 },
                 "executable_binary_property": {
                     "type": "string",
                     "default": "zip",
+                    "wf_prop": false,
                     "description": "Example of executable binary property."
                 },
                 "remove_tmp": {
                     "type": "boolean",
                     "default": true,
-                    "description": "[WF property] Remove temporal files."
+                    "wf_prop": true,
+                    "description": "Remove temporal files."
                 },
                 "restart": {
                     "type": "boolean",
                     "default": false,
-                    "description": "[WF property] Do not execute if output files exist."
+                    "wf_prop": true,
+                    "description": "Do not execute if output files exist."
                 }
             }
         }

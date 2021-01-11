@@ -11,12 +11,15 @@ from biobb_common.command_wrapper import cmd_wrapper
 
 # 1. Rename class as required
 class TemplateContainer():
-    """Description for the template container (http://templatedocumentation.org) module.
+    """
+    | biobb_template TemplateContainer
+    | Short description for the `template container <http://templatedocumentation.org>`_ module in Restructured Text (reST) syntax. Mandatory.
+    | Long description for the `template container <http://templatedocumentation.org>`_ module in Restructured Text (reST) syntax. Optional.
 
     Args:
-        input_file_path1 (str): Description for the first input file path. File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: top.
-        input_file_path2 (str) (Optional): Description for the second input file path (optional). File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: dcd.
-        output_file_path (str): Description for the output file path. File type: output. `Sample file <https://urlto.sample>`_. Accepted formats: zip.
+        input_file_path1 (str): Description for the first input file path. File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: top (edam:format_3881).
+        input_file_path2 (str) (Optional): Description for the second input file path (optional). File type: input. `Sample file <https://urlto.sample>`_. Accepted formats: dcd (edam:format_3878).
+        output_file_path (str): Description for the output file path. File type: output. `Sample file <https://urlto.sample>`_. Accepted formats: zip (edam:format_3987).
         properties (dic):
             * **boolean_property** (*bool*) - (True) Example of boolean property.
             * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
@@ -28,10 +31,34 @@ class TemplateContainer():
             * **container_working_dir** (*str*) - (None) Container working directory definition.
             * **container_user_id** (*str*) - (None) Container user_id definition.
             * **container_shell_path** (*str*) - ('/bin/bash') Path to default shell inside the container.
+
+    Examples:
+        This is a use example of how to use the building block from Python::
+
+            from biobb_template.template.template_container import template_container
+
+            prop = { 
+                'boolean_property': True 
+            }
+            template_container(input_file_path1='/path/to/myTopology.top',
+                            output_file_path='/path/to/newCompressedFile.zip',
+                            input_file_path2='/path/to/mytrajectory.dcd',
+                            properties=prop)
+
+    Info:
+        * wrapped_software:
+            * name: Zip
+            * version: >=3.0
+            * license: BSD 3-Clause
+        * ontology:
+            * name: EDAM
+            * schema: http://edamontology.org/EDAM.owl
+
     """
 
     # 2. Adapt input and output file paths as required. Include all files, even optional ones
-    def __init__(self, input_file_path1, input_file_path2, output_file_path, properties, **kwargs):
+    def __init__(self, input_file_path1, output_file_path, 
+                input_file_path2 = None, properties = None, **kwargs) -> None:
         properties = properties or {}
 
         # 2.1 Modify to match constructor parameters
@@ -45,9 +72,9 @@ class TemplateContainer():
         # self.property_name = properties.get('property_name', property_default_value)
 
         # Properties specific for BB
-        self.properties = properties
         self.boolean_property = properties.get('boolean_property', True)
         self.executable_binary_property = properties.get('executable_binary_property', 'zip')
+        self.properties = properties
 
         # container Specific
         self.container_path = properties.get('container_path')
@@ -67,8 +94,8 @@ class TemplateContainer():
         self.restart = properties.get('restart', False)
 
     @launchlogger
-    def launch(self):
-        """Launches the execution of the template_container module."""
+    def launch(self) -> int:
+        """Execute the :class:`TemplateContainer <template.template_container.TemplateContainer>` object."""
         
         # Get local loggers from launchlogger decorator
         out_log = getattr(self, 'out_log', None)
@@ -133,8 +160,18 @@ class TemplateContainer():
 
         return returncode
 
+def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> None:
+    """Create :class:`Template <template.template_container.Template>` class and
+    execute the :meth:`launch() <template.template_container.Template.launch>` method."""
+
+    return TemplateContainer(input_file_path1=input_file_path1, 
+                            output_file_path=output_file_path,
+                            input_file_path2=input_file_path2,
+                            properties=properties, **kwargs).launch()
+
 def main():
-    parser = argparse.ArgumentParser(description='Description for the template module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
+    """Command line execution of this building block. Please check the command line documentation."""
+    parser = argparse.ArgumentParser(description='Description for the template container module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
     parser.add_argument('--config', required=False, help='Configuration file')
 
     # 11. Include specific args of each building block following the examples. They should match step 2
@@ -144,13 +181,14 @@ def main():
     required_args.add_argument('--output_file_path', required=True, help='Description for the output file path. Accepted formats: zip.')
 
     args = parser.parse_args()
-    config = args.config if args.config else None
-    properties = settings.ConfReader(config=config).get_prop_dic()
+    args.config = args.config or "{}"
+    properties = settings.ConfReader(config=args.config).get_prop_dic()
 
     # 12. Adapt to match Class constructor (step 2)
     # Specific call of each building block
-    TemplateContainer(input_file_path1=args.input_file_path1, input_file_path2=args.input_file_path2, 
+    TemplateContainer(input_file_path1=args.input_file_path1, 
                       output_file_path=args.output_file_path, 
+                      input_file_path2=args.input_file_path2, 
                       properties=properties).launch()
 
 if __name__ == '__main__':

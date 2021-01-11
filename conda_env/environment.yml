@@ -4,7 +4,7 @@ channels:
   - bioconda
 dependencies:
   - python
-  - biobb_common==2.0.1
+  - biobb_common
   - nb_conda_kernels
   - nose
   - zip
