@@ -32,10 +32,10 @@ Edit **conda_env/biobb_template.pth** with the paths to your *biobb_template* fo
 /home/user_name/projects/biobb_template/biobb_template/biobb_template
 ```
 
-Copy the edited **conda_env/biobb_template.pth** file to the site-packages folder of your environment. This folder is in */[anaconda-path]/envs/biobb_template/lib/python3.6/site-packages*, where */[anaconda-path]* is usually */anaconda3* or */opt/conda*. Then, activate the recently created *biobb_template* conda environment.
+Copy the edited **conda_env/biobb_template.pth** file to the site-packages folder of your environment. This folder is in */[anaconda-path]/envs/biobb_template/lib/python3.7/site-packages*, where */[anaconda-path]* is usually */anaconda3* or */opt/conda*. Then, activate the recently created *biobb_template* conda environment.
 
 ```console
-cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3.6/site-packages
+cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3.7/site-packages
 conda activate biobb_template
 ```
 
