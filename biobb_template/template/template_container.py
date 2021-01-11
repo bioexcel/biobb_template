@@ -38,7 +38,10 @@ class TemplateContainer():
             from biobb_template.template.template_container import template_container
 
             prop = { 
-                'boolean_property': True 
+                'boolean_property': True,
+                'container_path': 'docker',
+                'container_image': 'mmbirb/zip:latest',
+                'container_volume_path': '/tmp'
             }
             template_container(input_file_path1='/path/to/myTopology.top',
                             output_file_path='/path/to/newCompressedFile.zip',

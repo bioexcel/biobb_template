@@ -12,16 +12,15 @@ The latest documentation of this package can be found in our readthedocs site:
 [latest API documentation](http://biobb_template.readthedocs.io/en/latest/).
 
 ### Version
-v1.0.0 2020.4
+v2.0.0 2020.4
 
 ### Installation
 
 If you have no experience with anaconda, please first take a look to the [New with anaconda?](https://biobb-documentation.readthedocs.io/en/latest/first_steps.html#new-with-anaconda) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
 
-Clone repository to your computer and create new conda environment:
+Although the biobb_template repository is available at GitHub and thus you can clone it, we strongly recommend you to [**download it compressed**](https://github.com/bioexcel/biobb_template/archive/master.zip) and start your new project from scratch. Once you have the project unzipped in your computer, please follow the next steps to create a new conda environment:
 
 ```console
-git https://github.com/bioexcel/biobb_template.git
 cd biobb_template
 conda env create -f conda_env/environment.yml
 ```
@@ -40,7 +39,9 @@ cp conda_env/biobb_template.pth /[anaconda-path]/envs/biobb_template/lib/python3
 conda activate biobb_template
 ```
 
-Additionnally, it's recommendable to configure binary paths in your environment in order to easy the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
+This template includes some folders not standard for a biobb, such as **biobb_template/adapters/**, **biobb_template/notebooks/** or **conda_env/**. For the sake of having a pure biobb structure, you should uncomment the three last lines of the **.gitignore** file before creating a new git repository.
+
+Additionally, it's recommendable to configure binary paths in your environment in order to ease the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
 
 ### Documentation
 
