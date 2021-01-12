@@ -22,7 +22,7 @@ If you have no experience with anaconda, please first take a look to the [New wi
 
 Although the biobb_template repository is available at GitHub and thus you can clone it, we strongly recommend you to [**download it compressed**](https://github.com/bioexcel/biobb_template/archive/master.zip) and start your new project from scratch. 
 
-### Create new conda environmen
+### Create new conda environment
 
 Once you have the project unzipped in your computer, please follow the next steps to create a new conda environment:
 
@@ -56,7 +56,18 @@ conda activate biobb_template
 
 ### Create repository
 
-This template includes some folders not standard for a biobb, such as **biobb_template/adapters/**, **biobb_template/notebooks/** or **conda_env/**. For the sake of having a pure biobb structure, you should uncomment the three last lines of the **.gitignore** file before creating a new git repository.
+This template includes some folders not standard for a biobb, such as **biobb_template/adapters/**, **biobb_template/notebooks/** or **conda_env/**. For the sake of having a pure biobb structure, you should uncomment the three last lines of the **.gitignore** file before creating a new git repository:
+
+```console
+biobb_template/adapters
+biobb_template/notebooks
+conda_env
+```
+Then, inialitize repository:
+
+```console
+git init
+```
 
 ### Binary paths configuration
 

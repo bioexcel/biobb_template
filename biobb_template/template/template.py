@@ -147,7 +147,7 @@ def template(input_file_path1: str, output_file_path: str, input_file_path2: str
     return Template(input_file_path1=input_file_path1, 
                     output_file_path=output_file_path,
                     input_file_path2=input_file_path2,
-                    properties=properties).launch()
+                    properties=properties, **kwargs).launch()
 
 def main():
     """Command line execution of this building block. Please check the command line documentation."""
