@@ -140,7 +140,7 @@ class Template():
 
         return returncode
 
-def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> None:
+def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
     """Create :class:`Template <template.template.Template>` class and
     execute the :meth:`launch() <template.template.Template.launch>` method."""
 

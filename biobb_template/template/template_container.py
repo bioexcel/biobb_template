@@ -163,7 +163,7 @@ class TemplateContainer():
 
         return returncode
 
-def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> None:
+def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
     """Create :class:`TemplateContainer <template.template_container.TemplateContainer>` class and
     execute the :meth:`launch() <template.template_container.TemplateContainer.launch>` method."""
 

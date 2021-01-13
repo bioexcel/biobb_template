@@ -1,5 +1,5 @@
 from biobb_common.tools import test_fixtures as fx
-from biobb_template.template.template import Template
+from biobb_template.template.template import template
 
 class TestTemplate():
     def setUp(self):
@@ -10,7 +10,7 @@ class TestTemplate():
         pass
 
     def test_template(self):
-        returncode= Template(properties=self.properties, **self.paths).launch()
+        returncode= template(properties=self.properties, **self.paths)
         assert fx.not_empty(self.paths['output_file_path'])
         assert fx.equal(self.paths['output_file_path'], self.paths['ref_output_file_path'])
         assert fx.exe_success(returncode)

@@ -1,5 +1,5 @@
 from biobb_common.tools import test_fixtures as fx
-from biobb_template.template.template_container import TemplateContainer
+from biobb_template.template.template_container import template_container
 
 class TestTemplateDocker():
     def setUp(self):
@@ -10,7 +10,7 @@ class TestTemplateDocker():
         pass
 
     def test_template_docker(self):
-        returncode= TemplateContainer(properties=self.properties, **self.paths).launch()
+        returncode= template_container(properties=self.properties, **self.paths)
         assert fx.not_empty(self.paths['output_file_path'])
         assert fx.equal(self.paths['output_file_path'], self.paths['ref_output_file_path'])
         assert fx.exe_success(returncode)
@@ -24,7 +24,7 @@ class TestTemplateSingularity():
         pass
 
     def test_template_singularity(self):
-        returncode= TemplateContainer(properties=self.properties, **self.paths).launch()
+        returncode= template_container(properties=self.properties, **self.paths)
         assert fx.not_empty(self.paths['output_file_path'])
         assert fx.equal(self.paths['output_file_path'], self.paths['ref_output_file_path'])
         assert fx.exe_success(returncode)
