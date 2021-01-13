@@ -189,10 +189,10 @@ def main():
 
     # 12. Adapt to match Class constructor (step 2)
     # Specific call of each building block
-    TemplateContainer(input_file_path1=args.input_file_path1, 
+    template_container(input_file_path1=args.input_file_path1, 
                       output_file_path=args.output_file_path, 
                       input_file_path2=args.input_file_path2, 
-                      properties=properties).launch()
+                      properties=properties)
 
 if __name__ == '__main__':
     main()
