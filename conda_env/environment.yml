@@ -2,10 +2,16 @@ name: biobb_template
 channels:
   - conda-forge
   - bioconda
+  - ambermd 
 dependencies:
   - python
   - biobb_common>=3.5.1
   - nb_conda_kernels
   - nose
-  - zip
   - conda
+  - curves
+  - pytraj
+  - pandas>=1.2
+  - matplotlib>=3.3
+  - numpy>=1.20
+  - scikit-learn>=0.24
