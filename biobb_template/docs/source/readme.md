@@ -12,7 +12,7 @@ The latest documentation of this package can be found in our readthedocs site:
 [latest API documentation](http://biobb_template.readthedocs.io/en/latest/).
 
 ## Version
-v2.0.0 2020.4
+v3.0.0 2021.3
 
 ## Installation
 
