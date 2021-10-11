@@ -3,14 +3,15 @@
 """Module containing the Template class and the command line interface."""
 import argparse
 import shutil
-from pathlib import Path, PurePath
+from pathlib import PurePath
+from biobb_common.generic.biobb_object import BiobbObject
 from biobb_common.configuration import  settings
 from biobb_common.tools import file_utils as fu
 from biobb_common.tools.file_utils import launchlogger
-from biobb_common.command_wrapper import cmd_wrapper
+
 
 # 1. Rename class as required
-class Template():
+class Template(BiobbObject):
     """
     | biobb_template Template
     | Short description for the `template <http://templatedocumentation.org>`_ module in Restructured Text (reST) syntax. Mandatory.
@@ -55,6 +56,9 @@ class Template():
                 input_file_path2 = None, properties = None, **kwargs) -> None:
         properties = properties or {}
 
+        # Call parent class constructor
+        super().__init__(properties)
+
         # 2.1 Modify to match constructor parameters
         # Input/Output files
         self.io_dict = { 
@@ -70,37 +74,20 @@ class Template():
         self.executable_binary_property = properties.get('executable_binary_property', 'zip')
         self.properties = properties
 
-        # Properties common in all BB
-        self.can_write_console_log = properties.get('can_write_console_log', True)
-        self.global_log = properties.get('global_log', None)
-        self.prefix = properties.get('prefix', None)
-        self.step = properties.get('step', None)
-        self.path = properties.get('path', '')
-        self.remove_tmp = properties.get('remove_tmp', True)
-        self.restart = properties.get('restart', False)
+        # Check the properties
+        self.check_properties(properties)
 
     @launchlogger
     def launch(self) -> int:
         """Execute the :class:`Template <template.template.Template>` object."""
-        
-        # Get local loggers from launchlogger decorator
-        out_log = getattr(self, 'out_log', None)
-        err_log = getattr(self, 'err_log', None)
 
-        # Check the properties
-        fu.check_properties(self, self.properties)
-
-        # Restart
-        if self.restart:
-            # 4. Include here all output file paths
-            output_file_list = [self.io_dict['out']['output_file_path']]
-            if fu.check_complete_files(output_file_list):
-                fu.log('Restart is enabled, this step: %s will the skipped' % self.step, out_log, self.global_log)
-                return 0
+        # Setup Biobb
+        if self.check_restart(): return 0
+        self.stage_files()
 
         # Creating temporary folder
         self.tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % self.tmp_folder, out_log)
+        fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
 
         # 5. Include here all mandatory input files
         # Copy input_file_path1 to temporary folder
@@ -110,35 +97,38 @@ class Template():
         instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
-            fu.log('Appending optional boolean property', out_log, self.global_log)
+            fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
         # 7. Build the actual command line as a list of items (elements order will be maintained)
-        cmd = [self.executable_binary_property,
+        self.cmd = [self.executable_binary_property,
                ' '.join(instructions), 
                self.io_dict['out']['output_file_path'],
                str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
-        fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
+        fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Repeat for optional input files if provided
         if self.io_dict['in']['input_file_path2']:
             # Copy input_file_path2 to temporary folder
             shutil.copy(self.io_dict['in']['input_file_path2'], self.tmp_folder)
             # Append optional input_file_path2 to cmd
-            cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
-            fu.log('Appending optional argument to command line', out_log, self.global_log)
+            self.cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
+            fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
         # 9. Uncomment to check the command line 
         # print(' '.join(cmd))
 
-        # Launch execution
-        returncode = cmd_wrapper.CmdWrapper(cmd, out_log, err_log, self.global_log).launch()
+        # Run Biobb block
+        self.run_biobb()
+
+        # Copy files to host
+        self.copy_to_host()
 
         # Remove temporary file(s)
         if self.remove_tmp: 
-            fu.rm(self.tmp_folder)
-            fu.log('Removed: %s' % str(self.tmp_folder), out_log)
+            self.tmp_files.append(self.tmp_folder)
+            self.remove_tmp_files()
 
-        return returncode
+        return self.return_code
 
 def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
     """Create :class:`Template <template.template.Template>` class and

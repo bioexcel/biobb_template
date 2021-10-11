@@ -2,15 +2,14 @@
 
 """Module containing the TemplateContainer class and the command line interface."""
 import argparse
-import shutil
-from pathlib import Path, PurePath
+from biobb_common.generic.biobb_object import BiobbObject
 from biobb_common.configuration import  settings
 from biobb_common.tools import file_utils as fu
 from biobb_common.tools.file_utils import launchlogger
-from biobb_common.command_wrapper import cmd_wrapper
+
 
 # 1. Rename class as required
-class TemplateContainer():
+class TemplateContainer(BiobbObject):
     """
     | biobb_template TemplateContainer
     | Short description for the `template container <http://templatedocumentation.org>`_ module in Restructured Text (reST) syntax. Mandatory.
@@ -64,6 +63,9 @@ class TemplateContainer():
                 input_file_path2 = None, properties = None, **kwargs) -> None:
         properties = properties or {}
 
+        # Call parent class constructor
+        super().__init__(properties)
+
         # 2.1 Modify to match constructor parameters
         # Input/Output files
         self.io_dict = { 
@@ -87,81 +89,55 @@ class TemplateContainer():
         self.container_user_id = properties.get('container_user_id')
         self.container_shell_path = properties.get('container_shell_path', '/bin/bash')
 
-        # Properties common in all BB
-        self.can_write_console_log = properties.get('can_write_console_log', True)
-        self.global_log = properties.get('global_log', None)
-        self.prefix = properties.get('prefix', None)
-        self.step = properties.get('step', None)
-        self.path = properties.get('path', '')
-        self.remove_tmp = properties.get('remove_tmp', True)
-        self.restart = properties.get('restart', False)
+        # Check the properties
+        self.check_properties(properties)
 
     @launchlogger
     def launch(self) -> int:
         """Execute the :class:`TemplateContainer <template.template_container.TemplateContainer>` object."""
         
-        # Get local loggers from launchlogger decorator
-        out_log = getattr(self, 'out_log', None)
-        err_log = getattr(self, 'err_log', None)
+        # Setup Biobb
+        if self.check_restart(): return 0
+        self.stage_files()
 
-        # Check the properties
-        fu.check_properties(self, self.properties)
-
-        # Restart
-        if self.restart:
-            # 4. Include here all output file paths
-            output_file_list = [self.io_dict['out']['output_file_path']]
-            if fu.check_complete_files(output_file_list):
-                fu.log('Restart is enabled, this step: %s will the skipped' % self.step, out_log, self.global_log)
-                return 0
-
-        # 5. Copy inputs to container
-        container_io_dict = fu.copy_to_container(self.container_path, self.container_volume_path, self.io_dict)
+        # Creating temporary folder
+        self.tmp_folder = fu.create_unique_dir()
+        fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
 
         # 6. Prepare the command line parameters as instructions list
         instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
-            fu.log('Appending optional boolean property', out_log, self.global_log)
+            fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
         # 7. Build the actual command line as a list of items (elements order will be maintained)
-        cmd = [self.executable_binary_property,
+        self.cmd = [self.executable_binary_property,
                ' '.join(instructions), 
-               container_io_dict['out']['output_file_path'],
-               container_io_dict['in']['input_file_path1']]
-        fu.log('Creating command line with instructions and required arguments', out_log, self.global_log)
+               self.stage_io_dict['out']['output_file_path'],
+               self.stage_io_dict['in']['input_file_path1']]
+        fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Repeat for optional input files if provided
-        if container_io_dict['in']['input_file_path2']:
+        if self.stage_io_dict['in']['input_file_path2']:
             # Append optional input_file_path2 to cmd
-            cmd.append(container_io_dict['in']['input_file_path2'])
-            fu.log('Appending optional argument to command line', out_log, self.global_log)
+            self.cmd.append(self.stage_io_dict['in']['input_file_path2'])
+            fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
         # 9. Uncomment to check the command line 
         # print(' '.join(cmd))
 
-        # 10. Create cmd with specdific syntax according to the required container
-        cmd = fu.create_cmd_line(cmd, container_path=self.container_path, 
-                                 host_volume=container_io_dict.get('unique_dir'), 
-                                 container_volume=self.container_volume_path, 
-                                 container_working_dir=self.container_working_dir, 
-                                 container_user_uid=self.container_user_id, 
-                                 container_image=self.container_image, 
-                                 container_shell_path=self.container_shell_path, 
-                                 out_log=out_log, global_log=self.global_log)
+        # Run Biobb block
+        self.run_biobb()
 
-        # Launch execution
-        returncode = cmd_wrapper.CmdWrapper(cmd, out_log, err_log, self.global_log).launch()
-
-        # Copy output(s) to output(s) path(s) in case of container execution
-        fu.copy_to_host(self.container_path, container_io_dict, self.io_dict)
+        # Copy files to host
+        self.copy_to_host()
 
         # Remove temporary file(s)
-        if self.remove_tmp and container_io_dict.get('unique_dir'): 
-            fu.rm(container_io_dict.get('unique_dir'))
-            fu.log('Removed: %s' % str(container_io_dict.get('unique_dir')), out_log)
+        if self.remove_tmp and self.stage_io_dict["unique_dir"]:
+            self.tmp_files.append(self.stage_io_dict.get("unique_dir"))
+            self.remove_tmp_files()
 
-        return returncode
+        return self.return_code
 
 def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
     """Create :class:`TemplateContainer <template.template_container.TemplateContainer>` class and
