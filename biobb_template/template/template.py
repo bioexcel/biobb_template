@@ -56,7 +56,7 @@ class Template(BiobbObject):
                 input_file_path2 = None, properties = None, **kwargs) -> None:
         properties = properties or {}
 
-        # Call parent class constructor
+        # 2.0 Call parent class constructor
         super().__init__(properties)
 
         # 2.1 Modify to match constructor parameters
@@ -81,7 +81,7 @@ class Template(BiobbObject):
     def launch(self) -> int:
         """Execute the :class:`Template <template.template.Template>` object."""
 
-        # Setup Biobb
+        # 4. Setup Biobb
         if self.check_restart(): return 0
         self.stage_files()
 
@@ -119,9 +119,6 @@ class Template(BiobbObject):
 
         # Run Biobb block
         self.run_biobb()
-
-        # Copy files to host
-        self.copy_to_host()
 
         # Remove temporary file(s)
         if self.remove_tmp: 

@@ -63,7 +63,7 @@ class TemplateContainer(BiobbObject):
                 input_file_path2 = None, properties = None, **kwargs) -> None:
         properties = properties or {}
 
-        # Call parent class constructor
+        # 2.0 Call parent class constructor
         super().__init__(properties)
 
         # 2.1 Modify to match constructor parameters
@@ -88,7 +88,7 @@ class TemplateContainer(BiobbObject):
     def launch(self) -> int:
         """Execute the :class:`TemplateContainer <template.template_container.TemplateContainer>` object."""
         
-        # Setup Biobb
+        # 4. Setup Biobb
         if self.check_restart(): return 0
         self.stage_files()
 
@@ -96,26 +96,26 @@ class TemplateContainer(BiobbObject):
         self.tmp_folder = fu.create_unique_dir()
         fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
 
-        # 6. Prepare the command line parameters as instructions list
+        # 5. Prepare the command line parameters as instructions list
         instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
             fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
-        # 7. Build the actual command line as a list of items (elements order will be maintained)
+        # 6. Build the actual command line as a list of items (elements order will be maintained)
         self.cmd = [self.executable_binary_property,
                ' '.join(instructions), 
                self.stage_io_dict['out']['output_file_path'],
                self.stage_io_dict['in']['input_file_path1']]
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
-        # 8. Repeat for optional input files if provided
+        # 7. Repeat for optional input files if provided
         if self.stage_io_dict['in']['input_file_path2']:
             # Append optional input_file_path2 to cmd
             self.cmd.append(self.stage_io_dict['in']['input_file_path2'])
             fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
-        # 9. Uncomment to check the command line 
+        # 8. Uncomment to check the command line 
         # print(' '.join(cmd))
 
         # Run Biobb block
@@ -145,7 +145,7 @@ def main():
     parser = argparse.ArgumentParser(description='Description for the template container module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
     parser.add_argument('--config', required=False, help='Configuration file')
 
-    # 11. Include specific args of each building block following the examples. They should match step 2
+    # 10. Include specific args of each building block following the examples. They should match step 2
     required_args = parser.add_argument_group('required arguments')
     required_args.add_argument('--input_file_path1', required=True, help='Description for the first input file path. Accepted formats: top.')
     parser.add_argument('--input_file_path2', required=False, help='Description for the second input file path (optional). Accepted formats: dcd.')
@@ -155,7 +155,7 @@ def main():
     args.config = args.config or "{}"
     properties = settings.ConfReader(config=args.config).get_prop_dic()
 
-    # 12. Adapt to match Class constructor (step 2)
+    # 11. Adapt to match Class constructor (step 2)
     # Specific call of each building block
     template_container(input_file_path1=args.input_file_path1, 
                       output_file_path=args.output_file_path, 
