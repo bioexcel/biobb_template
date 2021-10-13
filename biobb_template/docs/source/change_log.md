@@ -1,7 +1,7 @@
 
 # Biobb Template changelog
 
-## What's new in version [2.0.0](https://github.com/bioexcel/biobb_template/releases/tag/v3.0.0)?
+## What's new in version [3.0.0](https://github.com/bioexcel/biobb_template/releases/tag/v3.0.0)?
 In version 3.0.0 the dependency biobb_common has been updated to 3.7.0 version. 
 
 ### New features
