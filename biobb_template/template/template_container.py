@@ -81,14 +81,6 @@ class TemplateContainer(BiobbObject):
         self.executable_binary_property = properties.get('executable_binary_property', 'zip')
         self.properties = properties
 
-        # container Specific
-        self.container_path = properties.get('container_path')
-        self.container_image = properties.get('container_image', 'mmbirb/zip:latest')
-        self.container_volume_path = properties.get('container_volume_path', '/tmp')
-        self.container_working_dir = properties.get('container_working_dir')
-        self.container_user_id = properties.get('container_user_id')
-        self.container_shell_path = properties.get('container_shell_path', '/bin/bash')
-
         # Check the properties
         self.check_properties(properties)
 
