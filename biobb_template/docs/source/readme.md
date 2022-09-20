@@ -78,12 +78,12 @@ Additionally, it's recommendable to configure binary paths in your environment i
 To run tests, please execute the following instruction:
 
 ```console
-pytest /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template_container.py
+pytest /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template.py
 ```
 Or, if you prefer to show the BioBB output during the test process:
 
 ```console
-pytest -s /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template_container.py
+pytest -s /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template.py
 ```
 
 ## Documentation
