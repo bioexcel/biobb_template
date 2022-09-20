@@ -2,10 +2,10 @@ from biobb_common.tools import test_fixtures as fx
 from biobb_template.template.template import template
 
 class TestTemplate():
-    def setUp(self):
+    def setup_class(self):
         fx.test_setup(self, 'template')
 
-    def tearDown(self):
+    def teardown_class(self):
         fx.test_teardown(self)
         pass
 

@@ -21,7 +21,7 @@ class TemplateContainer(BiobbObject):
         output_file_path (str): Description for the output file path. File type: output. `Sample file <https://urlto.sample>`_. Accepted formats: zip (edam:format_3987).
         properties (dic):
             * **boolean_property** (*bool*) - (True) Example of boolean property.
-            * **executable_binary_property** (*str*) - ("zip") Example of executable binary property.
+            * **binary_path** (*str*) - ("zip") Example of executable binary property.
             * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
             * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
             * **container_path** (*str*) - (None) Container path definition.
@@ -78,7 +78,7 @@ class TemplateContainer(BiobbObject):
 
         # Properties specific for BB
         self.boolean_property = properties.get('boolean_property', True)
-        self.executable_binary_property = properties.get('executable_binary_property', 'zip')
+        self.binary_path = properties.get('binary_path', 'zip')
         self.properties = properties
 
         # Check the properties
@@ -103,7 +103,7 @@ class TemplateContainer(BiobbObject):
             fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
         # 6. Build the actual command line as a list of items (elements order will be maintained)
-        self.cmd = [self.executable_binary_property,
+        self.cmd = [self.binary_path,
                ' '.join(instructions), 
                self.stage_io_dict['out']['output_file_path'],
                self.stage_io_dict['in']['input_file_path1']]

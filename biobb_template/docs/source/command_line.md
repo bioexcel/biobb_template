@@ -40,7 +40,7 @@ Syntax: input_parameter (datatype) - (default_value) Definition
 
 Config parameters for this building block:
 * **boolean_property** (*boolean*): (True) Example of boolean property..
-* **executable_binary_property** (*string*): (zip) Example of executable binary property..
+* **binary_path** (*string*): (zip) Example of executable binary property..
 * **remove_tmp** (*boolean*): (True) Remove temporal files..
 * **restart** (*boolean*): (False) Do not execute if output files exist..
 * **container_path** (*string*): (None) Container path definition..
@@ -116,7 +116,7 @@ Syntax: input_parameter (datatype) - (default_value) Definition
 
 Config parameters for this building block:
 * **boolean_property** (*boolean*): (True) Example of boolean property..
-* **executable_binary_property** (*string*): (zip) Example of executable binary property..
+* **binary_path** (*string*): (zip) Example of executable binary property..
 * **remove_tmp** (*boolean*): (True) Remove temporal files..
 * **restart** (*boolean*): (False) Do not execute if output files exist..
 ### YAML
@@ -134,7 +134,7 @@ properties:
   container_image: bioexcel-zip_container-master-latest.simg
   container_path: singularity
   container_volume_path: /tmp
-  executable_binary_property: /opt/conda/bin/zip
+  binary_path: /opt/conda/bin/zip
   remove_tmp: false
 
 ```
@@ -158,7 +158,7 @@ template --config config_template.yml --input_file_path1 urlto.sample --input_fi
   "properties": {
     "boolean_property": false,
     "remove_tmp": false,
-    "executable_binary_property": "/opt/conda/bin/zip",
+    "binary_path": "/opt/conda/bin/zip",
     "container_path": "singularity",
     "container_image": "bioexcel-zip_container-master-latest.simg",
     "container_volume_path": "/tmp"

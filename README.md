@@ -12,7 +12,7 @@ The latest documentation of this package can be found in our readthedocs site:
 [latest API documentation](http://biobb_template.readthedocs.io/en/latest/).
 
 ## Version
-v3.0.0 2021.3
+v4.0.0 2022.3
 
 ## Installation
 
@@ -73,6 +73,19 @@ git init
 
 Additionally, it's recommendable to configure binary paths in your environment in order to ease the command line execution. More info about this subject in the [Binary path configuration](https://biobb-documentation.readthedocs.io/en/latest/execution.html#binary-path-configuration) section of the [official documentation](https://biobb-documentation.readthedocs.io/en/latest/).
 
+## Run tests
+
+To run tests, please execute the following instruction:
+
+```console
+pytest /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template_container.py
+```
+Or, if you prefer to show the BioBB output during the test process:
+
+```console
+pytest -s /path/to/biobb_template/biobb_template/test/unitests/test_template/test_template_container.py
+```
+
 ## Documentation
 
 [Click here to find the API Documentation example](https://biobb-template.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb_template.readthedocs.io/en/latest/command_line.html).
@@ -82,8 +95,8 @@ And here you can find [the full documentation](https://biobb-documentation.readt
 ## Copyright & Licensing
 This software has been developed in the [MMB group](http://mmb.irbbarcelona.org) at the [BSC](http://www.bsc.es/) & [IRB](https://www.irbbarcelona.org/) for the [European BioExcel](http://bioexcel.eu/), funded by the European Commission (EU H2020 [823830](http://cordis.europa.eu/projects/823830), EU H2020 [675728](http://cordis.europa.eu/projects/675728)).
 
-* (c) 2015-2020 [Barcelona Supercomputing Center](https://www.bsc.es/)
-* (c) 2015-2020 [Institute for Research in Biomedicine](https://www.irbbarcelona.org/)
+* (c) 2015-2022 [Barcelona Supercomputing Center](https://www.bsc.es/)
+* (c) 2015-2022 [Institute for Research in Biomedicine](https://www.irbbarcelona.org/)
 
 Licensed under the
 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), see the file LICENSE for details.

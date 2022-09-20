@@ -78,7 +78,7 @@
                     "wf_prop": false,
                     "description": "Example of boolean property."
                 },
-                "executable_binary_property": {
+                "binary_path": {
                     "type": "string",
                     "default": "zip",
                     "wf_prop": false,
