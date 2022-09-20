@@ -19,7 +19,7 @@ setuptools.setup(
     },
     packages=setuptools.find_packages(exclude=['adapters', 'docs', 'test']),
     install_requires=['biobb_common==3.8.1'],
-    python_requires='>=3.7.*',
+    python_requires='>=3.7',
     classifiers=(
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.7",
