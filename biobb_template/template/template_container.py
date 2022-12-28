@@ -65,6 +65,7 @@ class TemplateContainer(BiobbObject):
 
         # 2.0 Call parent class constructor
         super().__init__(properties)
+        self.locals_var_dict = locals().copy()
 
         # 2.1 Modify to match constructor parameters
         # Input/Output files
@@ -83,6 +84,8 @@ class TemplateContainer(BiobbObject):
 
         # Check the properties
         self.check_properties(properties)
+        # Check the arguments
+        self.check_arguments()
 
     @launchlogger
     def launch(self) -> int:
@@ -125,9 +128,14 @@ class TemplateContainer(BiobbObject):
         self.copy_to_host()
 
         # Remove temporary file(s)
-        if self.remove_tmp and self.stage_io_dict["unique_dir"]:
-            self.tmp_files.append(self.stage_io_dict.get("unique_dir"))
-            self.remove_tmp_files()
+        self.tmp_files.extend([
+            self.stage_io_dict.get("unique_dir"),
+            self.tmp_folder
+        ])
+        self.remove_tmp_files()
+
+        # Check output arguments
+        self.check_arguments(output_files_created=True, raise_exception=False)
 
         return self.return_code
 
