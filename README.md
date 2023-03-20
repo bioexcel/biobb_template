@@ -1,4 +1,8 @@
+[![](https://github.com/bioexcel/biobb_template/actions/workflows/linting_and_testing.yml/badge.svg)](https://github.com/bioexcel/biobb_template/actions/workflows/linting_and_testing.yml)
+[![](https://codecov.io/gh/bioexcel/biobb_template/branch/master/graph/badge.svg?token=82NIM2DCNG)](https://codecov.io/gh/bioexcel/biobb_template)
 [![](https://readthedocs.org/projects/biobb-template/badge/?version=latest)](https://biobb-template.readthedocs.io/en/latest/?badge=latest)
+
+[![](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # biobb_template
 
