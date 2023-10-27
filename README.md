@@ -13,7 +13,7 @@ Biobb (BioExcel building blocks) packages are Python building blocks that
 create new layer of compatibility and interoperability over popular
 bioinformatics tools.
 The latest documentation of this package can be found in our readthedocs site:
-[latest API documentation](http://biobb_template.readthedocs.io/en/latest/).
+[latest API documentation](http://biobb-template.readthedocs.io/en/latest/).
 
 ## Version
 v3.9.0 2022.4
@@ -92,7 +92,7 @@ pytest -s /path/to/biobb_template/biobb_template/test/unitests/test_template/tes
 
 ## Documentation
 
-[Click here to find the API Documentation example](https://biobb-template.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb_template.readthedocs.io/en/latest/command_line.html).
+[Click here to find the API Documentation example](https://biobb-template.readthedocs.io/en/latest/template.html) for this template and [here for Command Line documentation](http://biobb-template.readthedocs.io/en/latest/command_line.html).
 
 And here you can find [the full documentation](https://biobb-documentation.readthedocs.io/en/latest/) about how to build a new **BioExcel building block** from scratch.
 
