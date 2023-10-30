@@ -89,7 +89,7 @@ jobs:
           path: './biobb_common'
 
       - name: Run tests
-        shell: bash -l {0}  # necessary for conda env to be active
+        shell: micromamba-shell {0}  # necessary for conda env to be active
         run: |
           # Ignoring docker and singularity tests
           export PYTHONPATH=.:./biobb_common:$PYTHONPATH
