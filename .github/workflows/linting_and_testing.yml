@@ -100,6 +100,12 @@ jobs:
           # Production one
           pytest biobb_template/test/unitests/ --cov=./ --cov-report=xml --ignore-glob=*container.py
 
+      - name: Generate Tests badge
+        shell: micromamba-shell {0}  # necessary for conda env to be active
+        run: |
+          genbadge tests --name "Tests" --input-file ./reports/junit/junit.xml  --output-file ./reports/junit/testsbadge.svg
+
+
       - name: Generate Coverage badge
         shell: micromamba-shell {0}  # necessary for conda env to be active
         run: |
