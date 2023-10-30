@@ -19,8 +19,8 @@ jobs:
     strategy:
       matrix:
         os: [self-hosted]
-        python-version: ["3.7", "3.8", "3.9"]
-    runs-on: self-hosted
+        python-version: ["3.8", "3.9", "3.10"]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -35,22 +35,35 @@ jobs:
         run: |
           ls ${{ github.workspace }}
 
+      - name: Remove all micromamba installations
+        run: |
+          rm -rf /home/user/.bash_profile /home/user/.conda /home/user/micromamba /home/user/micromamba-bin 2>/dev/null
+          touch /home/user/.bash_profile
+
       - name: provision-with-micromamba
-        uses: mamba-org/provision-with-micromamba@main
+        uses: mamba-org/setup-micromamba@v1
         with:
+          generate-run-shell: true
+          post-cleanup: all
           environment-file: .github/env.yaml
-          extra-specs: |
+          create-args: >-
             python=${{ matrix.python-version }}
             pytest
             pytest-cov
+            pytest-html
             flake8
+            pip
       
+      - name: Install genbadge from pip
+        shell: micromamba-shell {0}  # necessary for conda env to be active
+        run: pip install genbadge[all]
+
       - name: List installed package versions
-        shell: bash -l {0}  # necessary for conda env to be active
+        shell: micromamba-shell {0}  # necessary for conda env to be active
         run: micromamba list
 
       - name: Lint with flake8
-        shell: bash -l {0}  # necessary for conda env to be active
+        shell: micromamba-shell {0}  # necessary for conda env to be active
         run: |
           # F Codes: https://flake8.pycqa.org/en/latest/user/error-codes.html
           # E Code: https://pycodestyle.pycqa.org/en/latest/intro.html#error-codes
@@ -58,8 +71,16 @@ jobs:
           # Workflow fails: Stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
+          # Create directory for flake8 reports
+          mkdir -p ./reports/flake8
+
           # Exit-zero treats all errors as warnings, workflow will not fail:
           flake8 . --exclude=docs --ignore=C901,E226 --count --exit-zero --max-complexity=10 --max-line-length=999 --statistics
+
+      - name: Generate Flake8 badge
+        shell: micromamba-shell {0}  # necessary for conda env to be active
+        run: |
+          genbadge flake8 --name "Flake8" --input-file ./reports/flake8/flake8stats.txt  --output-file ./reports/flake8/flake8badge.svg
 
       - name: Checkout biobb_common
         uses: actions/checkout@v3
@@ -72,15 +93,27 @@ jobs:
         run: |
           # Ignoring docker and singularity tests
           export PYTHONPATH=.:./biobb_common:$PYTHONPATH
+
+          # Create directory for tests reports
+          mkdir -p ./reports/junit
+
           # Production one
           pytest biobb_template/test/unitests/ --cov=./ --cov-report=xml --ignore-glob=*container.py
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Generate Coverage badge
+        shell: micromamba-shell {0}  # necessary for conda env to be active
+        run: |
+          # Create directory for flake8 reports
+          mkdir -p ./reports/coverage
+
+          coverage xml -o ./reports/coverage/coverage.xml
+          coverage html -d ./reports/coverage/
+
+          genbadge coverage --name "Coverage" --input-file ./reports/coverage/coverage.xml  --output-file ./reports/coverage/coveragebadge.svg
+
+      - name: Publish coverage report to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-      
-      - name: Restore .bash_profile
-        run: cp ~/.bash_profile_orig ~/.bash_profile
+          folder: ./reports
 
 
