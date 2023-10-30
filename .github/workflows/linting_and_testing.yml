@@ -77,10 +77,10 @@ jobs:
           # Exit-zero treats all errors as warnings, workflow will not fail:
           flake8 . --exclude=docs --ignore=C901,E226 --count --exit-zero --max-complexity=10 --max-line-length=999 --statistics
 
-      - name: Generate Flake8 badge
-        shell: micromamba-shell {0}  # necessary for conda env to be active
-        run: |
-          genbadge flake8 --name "Flake8" --input-file ./reports/flake8/flake8stats.txt  --output-file ./reports/flake8/flake8badge.svg
+      # - name: Generate Flake8 badge
+      #   shell: micromamba-shell {0}  # necessary for conda env to be active
+      #   run: |
+      #     genbadge flake8 --name "Flake8" --input-file ./reports/flake8/flake8stats.txt  --output-file ./reports/flake8/flake8badge.svg
 
       - name: Checkout biobb_common
         uses: actions/checkout@v3
@@ -100,26 +100,20 @@ jobs:
           # Production one
           pytest biobb_template/test/unitests/ --cov=./ --cov-report=xml --ignore-glob=*container.py
 
-      - name: Generate Tests badge
-        shell: micromamba-shell {0}  # necessary for conda env to be active
-        run: |
-          genbadge tests --name "Tests" --input-file ./reports/junit/junit.xml  --output-file ./reports/junit/testsbadge.svg
+      # - name: Generate Coverage badge
+      #   shell: micromamba-shell {0}  # necessary for conda env to be active
+      #   run: |
+      #     # Create directory for flake8 reports
+      #     mkdir -p ./reports/coverage
 
+      #     coverage xml -o ./reports/coverage/coverage.xml
+      #     coverage html -d ./reports/coverage/
 
-      - name: Generate Coverage badge
-        shell: micromamba-shell {0}  # necessary for conda env to be active
-        run: |
-          # Create directory for flake8 reports
-          mkdir -p ./reports/coverage
+      #     genbadge coverage --name "Coverage" --input-file ./reports/coverage/coverage.xml  --output-file ./reports/coverage/coveragebadge.svg
 
-          coverage xml -o ./reports/coverage/coverage.xml
-          coverage html -d ./reports/coverage/
-
-          genbadge coverage --name "Coverage" --input-file ./reports/coverage/coverage.xml  --output-file ./reports/coverage/coveragebadge.svg
-
-      - name: Publish coverage report to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./reports
+      # - name: Publish coverage report to GitHub Pages
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: ./reports
 
 
