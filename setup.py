@@ -20,7 +20,12 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['adapters', 'docs', 'test']),
     install_requires=['biobb_common==4.1.0'],
     python_requires='>=3.8',
-     classifiers=(
+    entry_points={
+        "console_scripts": [
+            "template = biobb_template.template.template:main"
+        ]
+    },
+    classifiers=(
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
