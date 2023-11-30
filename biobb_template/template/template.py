@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 """Module containing the Template class and the command line interface."""
+import pytest
 import argparse
 import shutil
 from pathlib import PurePath
@@ -149,6 +150,7 @@ def template(input_file_path1: str, output_file_path: str, input_file_path2: str
                     properties=properties, **kwargs).launch()
 
 
+@pytest.mark.skip(reason="singularity currently not available")
 def main():
     """Command line execution of this building block. Please check the command line documentation."""
     parser = argparse.ArgumentParser(description='Description for the template module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
