@@ -1,7 +1,9 @@
+import pytest
 from biobb_common.tools import test_fixtures as fx
 from biobb_template.template.template_container import template_container
 
 
+@pytest.mark.skip(reason="skip containers when testing")
 class TestTemplateDocker():
     def setup_class(self):
         fx.test_setup(self, 'template_container')
@@ -17,6 +19,7 @@ class TestTemplateDocker():
         assert fx.exe_success(returncode)
 
 
+@pytest.mark.skip(reason="skip containers when testing")
 class TestTemplateSingularity():
     def setup_class(self):
         fx.test_setup(self, 'template_singularity')
