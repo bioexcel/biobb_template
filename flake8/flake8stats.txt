@@ -1,0 +1,14 @@
+14    E128 continuation line under-indented for visual indent
+4     E201 whitespace after '{'
+4     E202 whitespace before '}'
+3     E225 missing whitespace around operator
+8     E251 unexpected spaces around keyword / parameter equals
+2     E271 multiple spaces after keyword
+8     E302 expected 2 blank lines, found 1
+2     E305 expected 2 blank lines after class or function definition, found 1
+2     E701 multiple statements on one line (colon)
+1     F401 'pycompss.api.constraint.constraint' imported but unused
+25    W291 trailing whitespace
+3     W292 no newline at end of file
+1     W293 blank line contains whitespace
+1     W391 blank line at end of file
