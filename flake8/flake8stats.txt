@@ -9,6 +9,6 @@
 2     E701 multiple statements on one line (colon)
 1     F401 'pycompss.api.constraint.constraint' imported but unused
 25    W291 trailing whitespace
-3     W292 no newline at end of file
+7     W292 no newline at end of file
 1     W293 blank line contains whitespace
 1     W391 blank line at end of file
