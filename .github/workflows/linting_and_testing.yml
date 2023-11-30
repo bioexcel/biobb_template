@@ -3,8 +3,8 @@ name: tests
 on: 
   # workflow_dispatch
   push:
-   branches: [ master ]
-   paths-ignore:
+    branches: [ master ]
+    paths-ignore:
       - '.gitignore'
       - '.readthedocs.yaml'
       - 'LICENSE'
@@ -97,7 +97,7 @@ jobs:
           mkdir -p ./reports/junit
 
           # Producction one
-          pytest biobb_template/test/unitests/ --cov=biobb_template/ --cov-report=xml --ignore-glob=*test_template_container.* --junit-xml=./reports/junit/junit.xml --html=./reports/junit/report.html
+          pytest biobb_template/test/unitests/ --cov=biobb_template/ --cov-report=xml --junit-xml=./reports/junit/junit.xml --html=./reports/junit/report.html
 
       - name: Generate Tests badge
         shell: micromamba-shell {0}  # necessary for conda env to be active

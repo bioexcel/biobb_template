@@ -6,7 +6,7 @@ from biobb_template.template.template_container import template_container
 @pytest.mark.skip(reason="skip containers when testing")
 class TestTemplateDocker():
     def setup_class(self):
-        fx.test_setup(self, 'template_container')
+        fx.test_setup(self, 'template_docker')
 
     def teardown_class(self):
         fx.test_teardown(self)
