@@ -24,6 +24,7 @@ class TemplateContainer(BiobbObject):
             * **binary_path** (*str*) - ("zip") Example of executable binary property.
             * **remove_tmp** (*bool*) - (True) [WF property] Remove temporal files.
             * **restart** (*bool*) - (False) [WF property] Do not execute if output files exist.
+            * **sandbox_path** (*str*) - ("./") [WF property] Parent path to the sandbox directory.
             * **container_path** (*str*) - (None) Container path definition.
             * **container_image** (*str*) - ('mmbirb/zip:latest') Container image definition.
             * **container_volume_path** (*str*) - ('/tmp') Container volume path definition.
