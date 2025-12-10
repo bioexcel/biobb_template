@@ -1,6 +1,13 @@
 
 # Biobb Template changelog
 
+## What's new in version [5.1.0](https://github.com/bioexcel/biobb_template/releases/tag/v5.1.0)?
+In version 5.1.0 the dependency biobb_common has been updated to 5.1.1 version. 
+
+### New features
+
+* Update to biobb_common 5.1.1 (general)
+
 ## What's new in version [4.1.0](https://github.com/bioexcel/biobb_template/releases/tag/v4.1.0)?
 In version 4.1.0 the dependency biobb_common has been updated to 4.1.0 version. 
 

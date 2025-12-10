@@ -6,7 +6,7 @@
     "conda": "",
     "docker": "",
     "singularity": "",
-    "version": "4.1.0",
+    "version": "",
     "tools" : [
         {
             "block" : "Template", 
@@ -24,12 +24,12 @@
         }
     ],
     "dep_pypi" : [
-        "install_requires=['biobb_common==4.1.0']", 
-        "python_requires='>=3.8'"
+        "install_requires=['biobb_common==5.1.1']", 
+        "python_requires='>=3.9'"
     ], 
     "dep_conda" : [
-        "python >=3.8", 
-        "biobb_common ==4.1.0"
+        "python >=3.9", 
+        "biobb_common ==5.1.1"
     ],
     "keywords" : [
         "template", 

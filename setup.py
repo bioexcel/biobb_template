@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="biobb_template",
-    version="4.1.0",
+    version="5.1.0",
     author="Biobb developers",
     author_email="your@email.com",
     description="Biobb_template is a complete code template to promote and facilitate the creation of new Biobbs by the community.",
@@ -19,8 +19,8 @@ setuptools.setup(
     },
     packages=setuptools.find_packages(exclude=['adapters', 'docs', 'test']),
     package_data={'biobb_template': ['py.typed']},
-    install_requires=['biobb_common==4.1.0'],
-    python_requires='>=3.8',
+    install_requires=['biobb_common==5.1.1'],
+    python_requires='>=3.9',
     entry_points={
         "console_scripts": [
             "template = biobb_template.template.template:main"
@@ -28,9 +28,10 @@ setuptools.setup(
     },
     classifiers=(
         "Development Status :: 5 - Production/Stable",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: POSIX",

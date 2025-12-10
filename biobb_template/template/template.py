@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
 """Module containing the Template class and the command line interface."""
-import argparse
 import shutil
 from pathlib import PurePath
 from biobb_common.generic.biobb_object import BiobbObject
-from biobb_common.configuration import settings
 from biobb_common.tools import file_utils as fu
 from biobb_common.tools.file_utils import launchlogger
 
@@ -128,9 +126,7 @@ class Template(BiobbObject):
         self.copy_to_host()
 
         # Remove temporary file(s)
-        self.tmp_files.extend([
-            self.tmp_folder
-        ])
+        self.tmp_files.append(self.tmp_folder)
         self.remove_tmp_files()
 
         # Check output arguments
@@ -142,34 +138,11 @@ class Template(BiobbObject):
 def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
     """Create :class:`Template <template.template.Template>` class and
     execute the :meth:`launch() <template.template.Template.launch>` method."""
-
-    return Template(input_file_path1=input_file_path1,
-                    output_file_path=output_file_path,
-                    input_file_path2=input_file_path2,
-                    properties=properties, **kwargs).launch()
+    return Template(**dict(locals())).launch()
 
 
-def main():
-    """Command line execution of this building block. Please check the command line documentation."""
-    parser = argparse.ArgumentParser(description='Description for the template module.', formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
-    parser.add_argument('--config', required=False, help='Configuration file')
-
-    # 10. Include specific args of each building block following the examples. They should match step 2
-    required_args = parser.add_argument_group('required arguments')
-    required_args.add_argument('--input_file_path1', required=True, help='Description for the first input file path. Accepted formats: top.')
-    parser.add_argument('--input_file_path2', required=False, help='Description for the second input file path (optional). Accepted formats: dcd.')
-    required_args.add_argument('--output_file_path', required=True, help='Description for the output file path. Accepted formats: zip.')
-
-    args = parser.parse_args()
-    args.config = args.config or "{}"
-    properties = settings.ConfReader(config=args.config).get_prop_dic()
-
-    # 11. Adapt to match Class constructor (step 2)
-    # Specific call of each building block
-    template(input_file_path1=args.input_file_path1,
-             output_file_path=args.output_file_path,
-             input_file_path2=args.input_file_path2,
-             properties=properties)
+template.__doc__ = Template.__doc__
+main = Template.get_main(template, 'Description for the template module.')
 
 
 if __name__ == '__main__':
