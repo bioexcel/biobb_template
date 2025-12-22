@@ -29,7 +29,7 @@ The latest documentation of this package can be found in our readthedocs site:
 [latest API documentation](http://biobb-template.readthedocs.io/en/latest/).
 
 ## Version
-v5.1.0 2025.1
+v5.2.0 2025.2
 
 ## Installation
 

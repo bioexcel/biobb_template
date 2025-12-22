@@ -95,8 +95,8 @@ class TemplateContainer(BiobbObject):
         self.stage_files()
 
         # Creating temporary folder
-        self.tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
+        tmp_folder = fu.create_unique_dir()
+        fu.log('Creating %s temporary folder' % tmp_folder, self.out_log)
 
         # 5. Prepare the command line parameters as instructions list
         instructions = ['-j']
@@ -127,7 +127,7 @@ class TemplateContainer(BiobbObject):
         self.copy_to_host()
 
         # Remove temporary file(s)
-        self.tmp_files.append(self.tmp_folder)
+        self.tmp_files.append(tmp_folder)
         self.remove_tmp_files()
 
         # Check output arguments

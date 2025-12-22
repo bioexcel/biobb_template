@@ -88,12 +88,12 @@ class Template(BiobbObject):
         self.stage_files()
 
         # Creating temporary folder
-        self.tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % self.tmp_folder, self.out_log)
+        tmp_folder = fu.create_unique_dir()
+        fu.log('Creating %s temporary folder' % tmp_folder, self.out_log)
 
         # 5. Include here all mandatory input files
         # Copy input_file_path1 to temporary folder
-        shutil.copy(self.io_dict['in']['input_file_path1'], self.tmp_folder)
+        shutil.copy(self.io_dict['in']['input_file_path1'], tmp_folder)
 
         # 6. Prepare the command line parameters as instructions list
         instructions = ['-j']
@@ -105,15 +105,15 @@ class Template(BiobbObject):
         self.cmd = [self.binary_path,
                     ' '.join(instructions),
                     self.io_dict['out']['output_file_path'],
-                    str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
+                    str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Repeat for optional input files if provided
         if self.io_dict['in']['input_file_path2']:
             # Copy input_file_path2 to temporary folder
-            shutil.copy(self.io_dict['in']['input_file_path2'], self.tmp_folder)
+            shutil.copy(self.io_dict['in']['input_file_path2'], tmp_folder)
             # Append optional input_file_path2 to cmd
-            self.cmd.append(str(PurePath(self.tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
+            self.cmd.append(str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
             fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
         # 9. Uncomment to check the command line
@@ -126,7 +126,7 @@ class Template(BiobbObject):
         self.copy_to_host()
 
         # Remove temporary file(s)
-        self.tmp_files.append(self.tmp_folder)
+        self.tmp_files.append(tmp_folder)
         self.remove_tmp_files()
 
         # Check output arguments
