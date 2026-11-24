@@ -5,7 +5,6 @@ import shutil
 from pathlib import PurePath
 from biobb_common.generic.biobb_object import BiobbObject
 from biobb_common.tools import file_utils as fu
-from biobb_common.tools.file_utils import launchlogger
 
 
 # 1. Rename class as required
@@ -73,19 +72,11 @@ class Template(BiobbObject):
         self.binary_path = properties.get('binary_path', 'zip')
         self.properties = properties
 
-        # Check the properties
-        self.check_properties(properties)
-        # Check the arguments
-        self.check_arguments()
-
-    @launchlogger
-    def launch(self) -> int:
+    def run(self) -> int:
         """Execute the :class:`Template <template.template.Template>` object."""
 
-        # 4. Setup Biobb
-        if self.check_restart():
-            return 0
-        self.stage_files()
+        # 4. BiobbObject.launch() has already checked the restart property and staged the files
+        # in the sandbox before calling run(): their paths are in self.stage_io_dict
 
         # Creating temporary folder
         tmp_folder = fu.create_unique_dir()
