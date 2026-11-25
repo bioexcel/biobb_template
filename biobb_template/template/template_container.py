@@ -79,7 +79,7 @@ class TemplateContainer(BiobbObject):
         self.binary_path = properties.get('binary_path', 'zip')
         self.properties = properties
 
-    def run(self) -> int:
+    def run(self) -> None:
         """Execute the :class:`TemplateContainer <template.template_container.TemplateContainer>` object."""
 
         # 4. BiobbObject.launch() has already checked the restart property and staged the files
@@ -114,17 +114,10 @@ class TemplateContainer(BiobbObject):
         # Run Biobb block
         self.run_biobb()
 
-        # Copy files to host
-        self.copy_to_host()
-
-        # Remove temporary file(s)
+        # 9. Add the temporary files to self.tmp_files: after run(), BiobbObject.launch() copies the
+        # outputs from the sandbox to the host, removes the temporary files and checks the outputs.
+        # A block that works on its outputs once they are on the host overrides process_outputs()
         self.tmp_files.append(tmp_folder)
-        self.remove_tmp_files()
-
-        # Check output arguments
-        self.check_arguments(output_files_created=True, raise_exception=False)
-
-        return self.return_code
 
 
 def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
