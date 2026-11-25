@@ -115,7 +115,7 @@ class Template(BiobbObject):
 
         # 10. Add the temporary files to self.tmp_files: after run(), BiobbObject.launch() copies the
         # outputs from the sandbox to the host, removes the temporary files and checks the outputs.
-        # A block that works on its outputs once they are on the host overrides process_outputs()
+        # Python code that reads or writes the files of the sandbox uses self.sandbox_file(<argument>)
         self.tmp_files.append(tmp_folder)
 
 
