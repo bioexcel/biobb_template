@@ -49,26 +49,10 @@ class Template(BiobbObject):
 
     # 2. Adapt input and output file paths as required. Include all files, even optional ones
     def __init__(self, input_file_path1, output_file_path, input_file_path2=None, properties=None, **kwargs) -> None:
-        properties = properties or {}
-
-        # 2.0 Call parent class constructor
-        super().__init__(properties)
-        self.locals_var_dict = locals().copy()
-
-        # 2.1 Modify to match constructor parameters
-        # Input/Output files
-        self.io_dict = {
-            'in': {'input_file_path1': input_file_path1, 'input_file_path2': input_file_path2},
-            'out': {'output_file_path': output_file_path}
-        }
-
-        # 3. Include all relevant properties here as
-        # self.property_name = properties.get('property_name', property_default_value)
-
-        # Properties specific for BB
-        self.boolean_property = properties.get('boolean_property', True)
-        self.binary_path = properties.get('binary_path', 'zip')
-        self.properties = properties
+        # 3. BiobbObject builds self.io_dict from the arguments documented in the docstring and sets one
+        # attribute per documented property (ie: self.boolean_property) with the default of the docstring.
+        # Add after this call only what is specific to the block (ie: values computed from the properties)
+        super().__init__(**locals())
 
     def run(self) -> None:
         """Execute the :class:`Template <template.template.Template>` object."""
