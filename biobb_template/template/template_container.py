@@ -103,7 +103,7 @@ class TemplateContainer(BiobbObject):
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 7. Repeat for optional input files if provided
-        if self.stage_io_dict['in']['input_file_path2']:
+        if self.stage_io_dict['in'].get('input_file_path2'):
             # Append optional input_file_path2 to cmd
             self.cmd.append(self.stage_io_dict['in']['input_file_path2'])
             fu.log('Appending optional argument to command line', self.out_log, self.global_log)
