@@ -85,10 +85,6 @@ class TemplateContainer(BiobbObject):
         # 4. BiobbObject.launch() has already checked the restart property and staged the files
         # in the sandbox before calling run(): their paths are in self.stage_io_dict
 
-        # Creating temporary folder
-        tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % tmp_folder, self.out_log)
-
         # 5. Prepare the command line parameters as instructions list
         instructions = ['-j']
         if self.boolean_property:
@@ -114,10 +110,10 @@ class TemplateContainer(BiobbObject):
         # Run Biobb block
         self.run_biobb()
 
-        # 9. Add the temporary files to self.tmp_files: after run(), BiobbObject.launch() copies the
-        # outputs from the sandbox to the host, removes the temporary files and checks the outputs.
-        # Python code that reads or writes the files of the sandbox uses self.sandbox_file(<argument>)
-        self.tmp_files.append(tmp_folder)
+        # 9. After run(), BiobbObject.launch() copies the outputs from the sandbox to the host,
+        # removes the temporary files (self.tmp_files, ie: the folders of self.create_tmp_dir())
+        # and checks the outputs. Python code that reads or writes the files of the sandbox uses
+        # self.sandbox_file(<argument>)
 
 
 def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:

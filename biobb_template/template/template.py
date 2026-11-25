@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 """Module containing the Template class and the command line interface."""
-import shutil
-from pathlib import PurePath
 from biobb_common.generic.biobb_object import BiobbObject
 from biobb_common.tools import file_utils as fu
 
@@ -76,47 +74,37 @@ class Template(BiobbObject):
         """Execute the :class:`Template <template.template.Template>` object."""
 
         # 4. BiobbObject.launch() has already checked the restart property and staged the files
-        # in the sandbox before calling run(): their paths are in self.stage_io_dict
+        # in the sandbox before calling run(): the command uses their paths, in self.stage_io_dict
 
-        # Creating temporary folder
-        tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % tmp_folder, self.out_log)
-
-        # 5. Include here all mandatory input files
-        # Copy input_file_path1 to temporary folder
-        shutil.copy(self.io_dict['in']['input_file_path1'], tmp_folder)
-
-        # 6. Prepare the command line parameters as instructions list
+        # 5. Prepare the command line parameters as instructions list
         instructions = ['-j']
         if self.boolean_property:
             instructions.append('-v')
             fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
-        # 7. Build the actual command line as a list of items (elements order will be maintained)
+        # 6. Build the actual command line as a list of items (elements order will be maintained)
         self.cmd = [self.binary_path,
                     ' '.join(instructions),
-                    self.io_dict['out']['output_file_path'],
-                    str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
+                    self.stage_io_dict['out']['output_file_path'],
+                    self.stage_io_dict['in']['input_file_path1']]
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
-        # 8. Repeat for optional input files if provided
-        if self.io_dict['in']['input_file_path2']:
-            # Copy input_file_path2 to temporary folder
-            shutil.copy(self.io_dict['in']['input_file_path2'], tmp_folder)
+        # 7. Repeat for optional input files if provided
+        if self.stage_io_dict['in'].get('input_file_path2'):
             # Append optional input_file_path2 to cmd
-            self.cmd.append(str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
+            self.cmd.append(self.stage_io_dict['in']['input_file_path2'])
             fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
-        # 9. Uncomment to check the command line
+        # 8. Uncomment to check the command line
         # print(' '.join(cmd))
 
         # Run Biobb block
         self.run_biobb()
 
-        # 10. Add the temporary files to self.tmp_files: after run(), BiobbObject.launch() copies the
-        # outputs from the sandbox to the host, removes the temporary files and checks the outputs.
-        # Python code that reads or writes the files of the sandbox uses self.sandbox_file(<argument>)
-        self.tmp_files.append(tmp_folder)
+        # 9. After run(), BiobbObject.launch() copies the outputs from the sandbox to the host,
+        # removes the temporary files (self.tmp_files, ie: the folders of self.create_tmp_dir())
+        # and checks the outputs. Python code that reads or writes the files of the sandbox uses
+        # self.sandbox_file(<argument>)
 
 
 def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
