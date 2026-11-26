@@ -9,7 +9,7 @@ jobs:
   pr_test:
     strategy:
       matrix:
-        os: [self-hosted]
+        os: [ubuntu-latest]
         python-version: ["3.12"]
     runs-on: ${{ matrix.os }}
     steps:
