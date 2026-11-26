@@ -145,7 +145,6 @@ Config parameters for this building block:
 * **container_path** (*string*): (None) Container path definition..
 * **container_image** (*string*): (mmbirb/zip:latest) Container image definition..
 * **container_volume_path** (*string*): (/tmp) Container volume path definition..
-* **container_working_dir** (*string*): (None) Container working directory definition..
 * **container_user_id** (*string*): (None) Container user_id definition..
 * **container_shell_path** (*string*): (/bin/bash) Path to default shell inside the container..
 ### YAML

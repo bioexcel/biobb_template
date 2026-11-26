@@ -58,7 +58,8 @@ class Template(BiobbObject):
         """Execute the :class:`Template <template.template.Template>` object."""
 
         # 4. BiobbObject.launch() has already checked the restart property and staged the files
-        # in the sandbox before calling run(): the command uses their paths, in self.stage_io_dict
+        # in the sandbox before calling run(). The command runs in the sandbox (the container volume
+        # in containers) and uses the staged files by name, from self.stage_io_dict
 
         # 5. Prepare the command line parameters as instructions list
         instructions = ['-j']
@@ -88,7 +89,8 @@ class Template(BiobbObject):
         # 9. After run(), BiobbObject.launch() copies the outputs from the sandbox to the host,
         # removes the temporary files (self.tmp_files, ie: the folders of self.create_tmp_dir())
         # and checks the outputs. Python code that reads or writes the files of the sandbox uses
-        # self.sandbox_file(<argument>)
+        # self.sandbox_file(<argument>), and self.staged_path(<host path>) gives the path the command
+        # uses for a file created in the sandbox (ie: by self.create_tmp_file())
 
 
 # 10. Name the launcher function as the module: it gets the arguments and the docstring of the class.
