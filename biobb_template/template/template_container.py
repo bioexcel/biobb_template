@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """Module containing the TemplateContainer class and the command line interface."""
-from biobb_common.generic.biobb_object import BiobbObject
+from biobb_common.generic.biobb_object import BiobbObject, launcher
 from biobb_common.tools import file_utils as fu
 
 
@@ -57,7 +57,7 @@ class TemplateContainer(BiobbObject):
     """
 
     # 2. Adapt input and output file paths as required. Include all files, even optional ones
-    def __init__(self, input_file_path1, output_file_path, input_file_path2=None, properties=None, **kwargs) -> None:
+    def __init__(self, input_file_path1: str, output_file_path: str, input_file_path2: str | None = None, properties: dict | None = None, **kwargs) -> None:
         # 3. BiobbObject builds self.io_dict from the arguments documented in the docstring and sets one
         # attribute per documented property (ie: self.boolean_property) with the default of the docstring.
         # Add after this call only what is specific to the block (ie: values computed from the properties)
@@ -100,17 +100,12 @@ class TemplateContainer(BiobbObject):
         # self.sandbox_file(<argument>)
 
 
-def template_container(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
-    """Create :class:`TemplateContainer <template.template_container.TemplateContainer>` class and
-    execute the :meth:`launch() <template.template_container.TemplateContainer.launch>` method."""
-    return TemplateContainer(**dict(locals())).launch()
-
-
-template_container.__doc__ = TemplateContainer.__doc__
-main = TemplateContainer.get_main(template_container, 'Description for the template container module.')
+# 10. Name the launcher function as the module: it gets the arguments and the docstring of the class.
+# The command line is TemplateContainer.main(), console script '<module>:TemplateContainer.main' in setup.py
+template_container = launcher(TemplateContainer)
 
 
 if __name__ == '__main__':
-    main()
+    TemplateContainer.main()
 
 # 13. Complete documentation strings
