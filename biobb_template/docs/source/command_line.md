@@ -142,11 +142,10 @@ Config parameters for this building block:
 * **remove_tmp** (*boolean*): (True) Remove temporal files..
 * **restart** (*boolean*): (False) Do not execute if output files exist..
 * **sandbox_path** (*string*): (./) Parent path to the sandbox directory..
-* **container_path** (*string*): (None) Container path definition..
-* **container_image** (*string*): (mmbirb/zip:latest) Container image definition..
-* **container_volume_path** (*string*): (/tmp) Container volume path definition..
-* **container_working_dir** (*string*): (None) Container working directory definition..
-* **container_user_id** (*string*): (None) Container user_id definition..
-* **container_shell_path** (*string*): (/bin/bash) Path to default shell inside the container..
+* **container_path** (*string*): (None) Path to the binary executable of your container..
+* **container_image** (*string*): (None) Container Image identifier..
+* **container_volume_path** (*string*): (/data) Path to an internal directory in the container: the sandbox is mounted there and the command runs in it..
+* **container_user_id** (*string*): (None) User number id to be mapped inside the container..
+* **container_shell_path** (*string*): (/bin/bash -c) Path to the binary executable of the container shell..
 ### YAML
 ### JSON

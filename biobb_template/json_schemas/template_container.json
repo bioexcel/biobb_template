@@ -106,37 +106,31 @@
                     "type": "string",
                     "default": null,
                     "wf_prop": false,
-                    "description": "Container path definition."
+                    "description": "Path to the binary executable of your container."
                 },
                 "container_image": {
                     "type": "string",
-                    "default": "mmbirb/zip:latest",
+                    "default": null,
                     "wf_prop": false,
-                    "description": "Container image definition."
+                    "description": "Container Image identifier."
                 },
                 "container_volume_path": {
                     "type": "string",
-                    "default": "/tmp",
+                    "default": "/data",
                     "wf_prop": false,
-                    "description": "Container volume path definition."
-                },
-                "container_working_dir": {
-                    "type": "string",
-                    "default": null,
-                    "wf_prop": false,
-                    "description": "Container working directory definition."
+                    "description": "Path to an internal directory in the container: the sandbox is mounted there and the command runs in it."
                 },
                 "container_user_id": {
                     "type": "string",
                     "default": null,
                     "wf_prop": false,
-                    "description": "Container user_id definition."
+                    "description": "User number id to be mapped inside the container."
                 },
                 "container_shell_path": {
                     "type": "string",
-                    "default": "/bin/bash",
+                    "default": "/bin/bash -c",
                     "wf_prop": false,
-                    "description": "Path to default shell inside the container."
+                    "description": "Path to the binary executable of the container shell."
                 }
             }
         }

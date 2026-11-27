@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 """Module containing the Template class and the command line interface."""
-import shutil
-from pathlib import PurePath
-from biobb_common.generic.biobb_object import BiobbObject
+from biobb_common.generic.biobb_object import BiobbObject, launcher
 from biobb_common.tools import file_utils as fu
-from biobb_common.tools.file_utils import launchlogger
 
 
 # 1. Rename class as required
+# 2. Complete the docstring: BiobbObject reads the arguments and the properties from it (the defaults are
+# Python literals, ie: ("zip"), (True), (None)), and the JSON schemas, the docs and the command line help are
+# generated from it
 class Template(BiobbObject):
     """
     | biobb_template Template
@@ -50,50 +50,27 @@ class Template(BiobbObject):
 
     """
 
-    # 2. Adapt input and output file paths as required. Include all files, even optional ones
-    def __init__(self, input_file_path1, output_file_path, input_file_path2=None, properties=None, **kwargs) -> None:
-        properties = properties or {}
+    # Optional: short flags of the command line. By default only a block with one input argument gets -i
+    # and only a block with one output argument gets -o
+    # custom_flags = {'input_file_path1': '-t'}
 
-        # 2.0 Call parent class constructor
-        super().__init__(properties)
-        self.locals_var_dict = locals().copy()
+    # 3. Adapt input and output file paths as required. Include all files, even optional ones
+    def __init__(self, input_file_path1: str, output_file_path: str, input_file_path2: str | None = None, properties: dict | None = None, **kwargs) -> None:
+        # 4. BiobbObject builds self.io_dict from the arguments documented in the docstring and sets one
+        # attribute per documented property (ie: self.boolean_property) with the default of the docstring.
+        # Add after this call only what is specific to the block (ie: values computed from the properties)
+        super().__init__(**locals())
 
-        # 2.1 Modify to match constructor parameters
-        # Input/Output files
-        self.io_dict = {
-            'in': {'input_file_path1': input_file_path1, 'input_file_path2': input_file_path2},
-            'out': {'output_file_path': output_file_path}
-        }
+    # Optional: define prepare(self) to check the values of the properties (BiobbObject already checks that
+    # the input files and the folders of the output files exist) or to create files that are staged with the
+    # inputs (add them to self.io_dict['in']). BiobbObject.launch() calls it before staging the files
 
-        # 3. Include all relevant properties here as
-        # self.property_name = properties.get('property_name', property_default_value)
-
-        # Properties specific for BB
-        self.boolean_property = properties.get('boolean_property', True)
-        self.binary_path = properties.get('binary_path', 'zip')
-        self.properties = properties
-
-        # Check the properties
-        self.check_properties(properties)
-        # Check the arguments
-        self.check_arguments()
-
-    @launchlogger
-    def launch(self) -> int:
+    def run(self) -> None:
         """Execute the :class:`Template <template.template.Template>` object."""
 
-        # 4. Setup Biobb
-        if self.check_restart():
-            return 0
-        self.stage_files()
-
-        # Creating temporary folder
-        tmp_folder = fu.create_unique_dir()
-        fu.log('Creating %s temporary folder' % tmp_folder, self.out_log)
-
-        # 5. Include here all mandatory input files
-        # Copy input_file_path1 to temporary folder
-        shutil.copy(self.io_dict['in']['input_file_path1'], tmp_folder)
+        # 5. BiobbObject.launch() has already checked the restart property, called prepare() and staged the
+        # files in the sandbox before calling run(). The command runs in the sandbox (the container volume
+        # in containers) and uses the staged files by name, from self.stage_io_dict
 
         # 6. Prepare the command line parameters as instructions list
         instructions = ['-j']
@@ -101,51 +78,33 @@ class Template(BiobbObject):
             instructions.append('-v')
             fu.log('Appending optional boolean property', self.out_log, self.global_log)
 
-        # 7. Build the actual command line as a list of items (elements order will be maintained)
+        # 7. Build the actual command line as a list of items, one per argument (elements order will be maintained)
         self.cmd = [self.binary_path,
-                    ' '.join(instructions),
-                    self.io_dict['out']['output_file_path'],
-                    str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path1']).name))]
+                    *instructions,
+                    self.stage_io_dict['out']['output_file_path'],
+                    self.stage_io_dict['in']['input_file_path1']]
         fu.log('Creating command line with instructions and required arguments', self.out_log, self.global_log)
 
         # 8. Repeat for optional input files if provided
-        if self.io_dict['in']['input_file_path2']:
-            # Copy input_file_path2 to temporary folder
-            shutil.copy(self.io_dict['in']['input_file_path2'], tmp_folder)
+        if self.stage_io_dict['in'].get('input_file_path2'):
             # Append optional input_file_path2 to cmd
-            self.cmd.append(str(PurePath(tmp_folder).joinpath(PurePath(self.io_dict['in']['input_file_path2']).name)))
+            self.cmd.append(self.stage_io_dict['in']['input_file_path2'])
             fu.log('Appending optional argument to command line', self.out_log, self.global_log)
 
-        # 9. Uncomment to check the command line
-        # print(' '.join(cmd))
-
-        # Run Biobb block
+        # 9. Run the command: run_biobb() writes it in the log and sets self.return_code to its exit code
         self.run_biobb()
 
-        # Copy files to host
-        self.copy_to_host()
-
-        # Remove temporary file(s)
-        self.tmp_files.append(tmp_folder)
-        self.remove_tmp_files()
-
-        # Check output arguments
-        self.check_arguments(output_files_created=True, raise_exception=False)
-
-        return self.return_code
+        # 10. After run(), BiobbObject.launch() copies the outputs from the sandbox to the host,
+        # removes the temporary files (self.tmp_files, ie: the folders of self.create_tmp_dir())
+        # and checks the outputs. Python code that reads or writes the files of the sandbox uses
+        # self.sandbox_file(<argument>), and self.staged_path(<host path>) gives the path the command
+        # uses for a file created in the sandbox (ie: by self.create_tmp_file())
 
 
-def template(input_file_path1: str, output_file_path: str, input_file_path2: str = None, properties: dict = None, **kwargs) -> int:
-    """Create :class:`Template <template.template.Template>` class and
-    execute the :meth:`launch() <template.template.Template.launch>` method."""
-    return Template(**dict(locals())).launch()
-
-
-template.__doc__ = Template.__doc__
-main = Template.get_main(template, 'Description for the template module.')
+# 11. Name the launcher function as the module: it gets the arguments and the docstring of the class.
+# The command line is Template.main(), console script '<module>:Template.main' in setup.py
+template = launcher(Template)
 
 
 if __name__ == '__main__':
-    main()
-
-# 12. Complete documentation strings
+    Template.main()

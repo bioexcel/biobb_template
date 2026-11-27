@@ -23,7 +23,7 @@ setuptools.setup(
     python_requires='>=3.10',
     entry_points={
         "console_scripts": [
-            "template = biobb_template.template.template:main"
+            "template = biobb_template.template.template:Template.main"
         ]
     },
     classifiers=(
